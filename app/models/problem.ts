@@ -1,3 +1,5 @@
+import z from "zod";
+
 export type Problem = {
 	id: string;
 	title: string;
@@ -5,18 +7,27 @@ export type Problem = {
 	solutions: { sql: string; expectedCsv: string }[];
 };
 
-export type BuildInProblemSet = {
-	id: string;
-	title: string;
-	problemIds: string[];
-	isBuildIn: true;
-};
+export const BuildInProblemSetSchema = z.object({
+	id: z.string(),
+	title: z.string(),
+	problemIds: z.array(z.string()),
+	isBuildIn: z.literal(true),
+});
 
-export type CustomProblemSet = {
-	id: string;
-	title: string;
-	problemsIds: string[];
-	isBuildIn: false;
-};
+export type BuildInProblemSet = z.infer<typeof BuildInProblemSetSchema>;
 
-export type ProblemSet = BuildInProblemSet | CustomProblemSet;
+export const CustomProblemSetSchema = z.object({
+	id: z.string(),
+	title: z.string(),
+	problemIds: z.array(z.string()),
+	isBuildIn: z.literal(false),
+});
+
+export type CustomProblemSet = z.infer<typeof CustomProblemSetSchema>;
+
+export const ProblemSetSchema = z.union([
+	BuildInProblemSetSchema,
+	CustomProblemSetSchema,
+]);
+
+export type ProblemSet = z.infer<typeof ProblemSetSchema>;

@@ -986,3 +986,6 @@ export const allProblems: Problem[] = [
 		],
 	},
 ];
+export const allProblemMap = new Map<string, Problem>(
+	allProblems.map((problem) => [problem.id, problem]),
+);

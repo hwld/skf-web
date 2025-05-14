@@ -8,6 +8,7 @@ import { ProblemStatusBadge } from "~/components/problem-status-badge";
 import { Tooltip, TooltipProvider } from "~/components/tooltip";
 import { usePlayableProblemSet } from "~/components/use-playable-problem-set";
 import { Progress } from "@base-ui-components/react";
+import React from "react";
 
 const expectedTitle = "Expected";
 const sqlSolutionTitle = "SQL Solution";
@@ -25,7 +26,7 @@ export default function ProblemSetPlay() {
 	} = usePlayableProblemSet(params);
 
 	return (
-		<div className="grid grid-cols-[1fr_auto] gap-4">
+		<div className="grid grid-cols-[1fr_auto] gap-4 min-h-0">
 			<div className="grid grid-rows-[1fr_320px] gap-4">
 				<Panel>
 					<PanelHeader>
@@ -62,7 +63,7 @@ export default function ProblemSetPlay() {
 					<PanelBody>実行結果</PanelBody>
 				</Panel>
 			</div>
-			<div className="grid grid-rows-[auto_270px_1fr] gap-4 w-[600px]">
+			<div className="grid grid-rows-[auto_270px_1fr] gap-4 w-[600px] min-h-0">
 				<div className="bg-base-800 border border-base-700 rounded-lg pl-4 pt-4 pr-3 pb-3 items-end grid grid-cols-[1fr_auto] gap-4">
 					<div className="flex flex-col gap-2">
 						<p className="text-xs">{playableProblemSet.title}</p>
@@ -95,7 +96,11 @@ export default function ProblemSetPlay() {
 					<PanelHeader>
 						<PanelTitle iconClass="i-tabler-file-text" title="Problem" />
 					</PanelHeader>
-					<PanelBody>問題文</PanelBody>
+					<PanelBody>
+						<div className="whitespace-pre-wrap">
+							{currentProblem.description}
+						</div>
+					</PanelBody>
 				</Panel>
 
 				<Tabs.Root render={Panel} defaultValue={expectedTitle}>
@@ -116,12 +121,89 @@ export default function ProblemSetPlay() {
 							<TabPanelIndicator />
 						</Tabs.List>
 					</PanelHeader>
-					<PanelBody>
-						<Tabs.Panel value={expectedTitle}>期待する実行結果</Tabs.Panel>
-						<Tabs.Panel value={sqlSolutionTitle}>回答例</Tabs.Panel>
-					</PanelBody>
+					<Tabs.Panel render={PanelBody} value={expectedTitle}>
+						<div className="flex flex-col gap-6">
+							{currentProblem.solutions.map((solution, index) => {
+								const lines = solution.expectedCsv.split("\n");
+								const columnNames = lines[0].split(",");
+								const firstRows = lines[1].split(",");
+								const paris = columnNames.map((column, index) => ({
+									column,
+									value: firstRows[index],
+								}));
+
+								return (
+									<div key={solution.sql} className="flex flex-col gap-2">
+										<p className="text-base-300 text-xs">
+											期待する列名と最初の行の値
+											{currentProblem.solutions.length > 1
+												? ` ${index + 1}`
+												: ""}
+										</p>
+										<div className="grid grid-cols-[auto_auto] w-fit border rounded-sm border-base-500">
+											<Cell value="列名" header />
+											<Cell value="最初の行の値" header columnEnd />
+											{paris.map(({ column, value }, index) => {
+												const isRowEnd = index === firstRows.length - 1;
+												return (
+													<React.Fragment key={`${column}-${value}`}>
+														<Cell value={column} rowEnd={isRowEnd} />
+														<Cell value={value} rowEnd={isRowEnd} columnEnd />
+													</React.Fragment>
+												);
+											})}
+										</div>
+									</div>
+								);
+							})}
+						</div>
+					</Tabs.Panel>
+					<Tabs.Panel render={PanelBody} value={sqlSolutionTitle}>
+						<div className="flex flex-col gap-6">
+							{currentProblem.solutions.map((solution, index) => (
+								<div key={solution.sql} className="flex flex-col gap-2">
+									{index > 0 ? (
+										<Separator
+											orientation="horizontal"
+											className="h-px bg-base-500"
+										/>
+									) : null}
+									<p className="text-base-300 text-xs">回答例{index + 1}</p>
+									<p className="whitespace-pre-wrap">{solution.sql}</p>
+								</div>
+							))}
+						</div>
+					</Tabs.Panel>
 				</Tabs.Root>
 			</div>
+		</div>
+	);
+}
+
+function Cell({
+	value,
+	className,
+	header,
+	rowEnd,
+	columnEnd,
+}: {
+	value: string;
+	className?: string;
+	header?: boolean;
+	rowEnd?: boolean;
+	columnEnd?: boolean;
+}) {
+	return (
+		<div
+			className={clsx(
+				className,
+				"px-2 py-1 border-base-500",
+				header ? "bg-white/10" : "",
+				rowEnd ? "" : "border-b",
+				columnEnd ? "" : "border-r",
+			)}
+		>
+			{value}
 		</div>
 	);
 }
@@ -151,7 +233,7 @@ function Panel({ children, ...others }: PropsWithChildren) {
 function PanelHeader({ children, ...others }: PropsWithChildren) {
 	return (
 		<div
-			className="h-9 bg-base-700 w-full flex items-center px-2 gap-2"
+			className="h-9 bg-base-700 w-full flex items-center px-2 gap-2 shrink-0"
 			{...others}
 		>
 			{children}
@@ -159,8 +241,12 @@ function PanelHeader({ children, ...others }: PropsWithChildren) {
 	);
 }
 
-function PanelBody({ children }: PropsWithChildren) {
-	return <div className="bg-base-800 p-4 grow">{children}</div>;
+function PanelBody({ children, ...props }: PropsWithChildren) {
+	return (
+		<div {...props} className="bg-base-800 p-4 grow overflow-auto">
+			{children}
+		</div>
+	);
 }
 
 function PanelFooter({ children }: PropsWithChildren) {

@@ -558,7 +558,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "43",
-		title: "[縦横変換]  縦→横",
+		title: "[縦横変換]  縦から横",
 		description:
 			"レシート明細データ（receipt）と顧客データ（customer）を結合し、性別コード（gender_cd）と年代（ageから計算）ごとに売上金額（amount）を合計した売上サマリデータを作成せよ。性別コードは0が男性、1が女性、9が不明を表すものとする。ただし、項目構成は年代、女性の売上金額、男性の売上金額、性別不明の売上金額の4項目とすること（縦に年代、横に性別のクロス集計）。また、年代は10歳ごとの階級とすること。",
 		solutions: [
@@ -571,9 +571,9 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "44",
-		title: "[縦横変換]  横→縦",
+		title: "[縦横変換]  横から縦",
 		description:
-			'「[縦横変換]縦→横」で作成した売上サマリデータ（sales_summary）は性別の売上を横持ちさせたものであった。このデータから性別を縦持ちさせ、年代、性別コード、売上金額の3項目に変換せよ。ただし、性別コードは男性を"00"、女性を"01"、不明を"99"とする。\n\n[縦横変換]縦→横: レシート明細データ（receipt）と顧客データ（customer）を結合し、性別コード（gender_cd）と年代（ageから計算）ごとに売上金額（amount）を合計した売上サマリデータを作成せよ。性別コードは0が男性、1が女性、9が不明を表すものとする。ただし、項目構成は年代、女性の売上金額、男性の売上金額、性別不明の売上金額の4項目とすること（縦に年代、横に性別のクロス集計）。また、年代は10歳ごとの階級とすること。',
+			'「[縦横変換]縦から横」で作成した売上サマリデータ（sales_summary）は性別の売上を横持ちさせたものであった。このデータから性別を縦持ちさせ、年代、性別コード、売上金額の3項目に変換せよ。ただし、性別コードは男性を"00"、女性を"01"、不明を"99"とする。\n\n[縦横変換]縦から横: レシート明細データ（receipt）と顧客データ（customer）を結合し、性別コード（gender_cd）と年代（ageから計算）ごとに売上金額（amount）を合計した売上サマリデータを作成せよ。性別コードは0が男性、1が女性、9が不明を表すものとする。ただし、項目構成は年代、女性の売上金額、男性の売上金額、性別不明の売上金額の4項目とすること（縦に年代、横に性別のクロス集計）。また、年代は10歳ごとの階級とすること。',
 		solutions: [
 			{
 				sql: "-- SQL向きではないため、やや強引に記載する（カテゴリ数が多いときはとても長いSQLとなってしまう点に注意）\nSELECT era, '00' AS gender_cd , male AS amount FROM sales_summary\nUNION ALL\nSELECT era, '01' AS gender_cd, female AS amount FROM sales_summary\nUNION ALL\nSELECT era, '99' AS gender_cd, unknown AS amount FROM sales_summary\n;",
@@ -584,7 +584,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "45",
-		title: "[データ変換]  日付型→文字列型",
+		title: "[データ変換]  日付型から文字列型",
 		description:
 			"顧客データ（customer）の生年月日（birth_day）は日付型でデータを保有している。これをYYYYMMDD形式の文字列に変換し、顧客ID（customer_id）とともに10件表示せよ。",
 		solutions: [
@@ -597,7 +597,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "46",
-		title: "[データ変換]  文字列型→日付型",
+		title: "[データ変換]  文字列型から日付型",
 		description:
 			"顧客データ（customer）の申し込み日（application_date）はYYYYMMDD形式の文字列型でデータを保有している。これを日付型に変換し、顧客ID（customer_id）とともに10件表示せよ。",
 		solutions: [
@@ -610,7 +610,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "47",
-		title: "[データ変換]  数値型→日付型",
+		title: "[データ変換]  数値型から日付型",
 		description:
 			"レシート明細データ（receipt）の売上日（sales_ymd）はYYYYMMDD形式の数値型でデータを保有している。これを日付型に変換し、レシート番号(receipt_no)、レシートサブ番号（receipt_sub_no）とともに10件表示せよ。",
 		solutions: [
@@ -623,7 +623,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "48",
-		title: "[データ変換]  UNIX秒→日付型",
+		title: "[データ変換]  UNIX秒から日付型",
 		description:
 			"レシート明細データ（receipt）の売上エポック秒（sales_epoch）は数値型のUNIX秒でデータを保有している。これを日付型に変換し、レシート番号(receipt_no)、レシートサブ番号（receipt_sub_no）とともに10件表示せよ。",
 		solutions: [

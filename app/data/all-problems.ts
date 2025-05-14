@@ -3,7 +3,7 @@ import type { Problem } from "~/models/problem";
 export const allProblems: Problem[] = [
 	{
 		id: "1",
-		title: "[列の操作]全項目指定",
+		title: "[列の操作]  全項目指定",
 		description:
 			"レシート明細データ（receipt）から全項目の先頭10件を表示し、どのようなデータを保有しているか目視で確認せよ。",
 		solutions: [
@@ -16,7 +16,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "2",
-		title: "[列の操作]列指定",
+		title: "[列の操作]  列指定",
 		description:
 			"レシート明細データ（receipt）から売上年月日（sales_ymd）、顧客ID（customer_id）、商品コード（product_cd）、売上金額（amount）の順に列を指定し、10件表示せよ。",
 		solutions: [
@@ -29,7 +29,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "3",
-		title: "[列の操作]列名変更",
+		title: "[列の操作]  列名変更",
 		description:
 			"レシート明細データ（receipt）から売上年月日（sales_ymd）、顧客ID（customer_id）、商品コード（product_cd）、売上金額（amount）の順に列を指定し、10件表示せよ。ただし、sales_ymdをsales_dateに項目名を変更しながら抽出すること。",
 		solutions: [
@@ -42,7 +42,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "4",
-		title: "[行の操作]単一条件",
+		title: "[行の操作]  単一条件",
 		description:
 			'レシート明細データ（receipt）から売上日（sales_ymd）、顧客ID（customer_id）、商品コード（product_cd）、売上金額（amount）の順に列を指定し、以下の条件を満たすデータを抽出せよ。\n\n顧客ID（customer_id）が"CS018205000001"',
 		solutions: [
@@ -55,7 +55,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "5",
-		title: "[行の操作]複数条件1",
+		title: "[行の操作]  複数条件1",
 		description:
 			'レシート明細データ（receipt）から売上日（sales_ymd）、顧客ID（customer_id）、商品コード（product_cd）、売上金額（amount）の順に列を指定し、以下の全ての条件を満たすデータを抽出せよ。\n\n顧客ID（customer_id）が"CS018205000001"\n売上金額（amount）が1,000以上',
 		solutions: [
@@ -68,7 +68,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "6",
-		title: "[行の操作]複数条件2",
+		title: "[行の操作]  複数条件2",
 		description:
 			'レシート明細データ（receipt）から売上日（sales_ymd）、顧客ID（customer_id）、商品コード（product_cd）、売上数量（quantity）、売上金額（amount）の順に列を指定し、以下の全ての条件を満たすデータを抽出せよ。\n\n顧客ID（customer_id）が"CS018205000001"\n売上金額（amount）が1,000以上または売上数量（quantity）が5以上',
 		solutions: [
@@ -81,7 +81,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "7",
-		title: "[行の操作]範囲指定",
+		title: "[行の操作]  範囲指定",
 		description:
 			'レシート明細データ（receipt）から売上日（sales_ymd）、顧客ID（customer_id）、商品コード（product_cd）、売上金額（amount）の順に列を指定し、以下の全ての条件を満たすデータを抽出せよ。\n\n顧客ID（customer_id）が"CS018205000001"\n売上金額（amount）が1,000以上2,000以下',
 		solutions: [
@@ -94,7 +94,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "8",
-		title: "[行の操作]不一致",
+		title: "[行の操作]  不一致",
 		description:
 			'レシート明細データ（receipt）から売上日（sales_ymd）、顧客ID（customer_id）、商品コード（product_cd）、売上金額（amount）の順に列を指定し、以下の全ての条件を満たすデータを抽出せよ。\n\n顧客ID（customer_id）が"CS018205000001"\n商品コード（product_cd）が"P071401019"以外',
 		solutions: [
@@ -107,7 +107,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "9",
-		title: "[行の操作]補集合",
+		title: "[行の操作]  補集合",
 		description:
 			"以下の処理において、出力結果を変えずにORをANDに書き換えよ。\nSELECT * FROM store WHERE NOT (prefecture_cd = '13' OR floor_area > 900)",
 		solutions: [
@@ -120,7 +120,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "10",
-		title: "[あいまい検索]前方一致",
+		title: "[あいまい検索]  前方一致",
 		description:
 			'店舗データ（store）から、店舗コード（store_cd）が"S14"で始まるものだけ全項目抽出し、10件表示せよ。',
 		solutions: [
@@ -133,7 +133,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "11",
-		title: "[あいまい検索]後方一致",
+		title: "[あいまい検索]  後方一致",
 		description:
 			"顧客データ（customer）から顧客ID（customer_id）の末尾が1のものだけ全項目抽出し、10件表示せよ。",
 		solutions: [
@@ -146,7 +146,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "12",
-		title: "[あいまい検索]部分一致1",
+		title: "[あいまい検索]  部分一致1",
 		description:
 			'店舗データ（store）から、住所 (address) に"横浜市"が含まれるものだけ全項目表示せよ。',
 		solutions: [
@@ -159,7 +159,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "13",
-		title: "[あいまい検索]部分一致2",
+		title: "[あいまい検索]  部分一致2",
 		description:
 			"顧客データ（customer）から、ステータスコード（status_cd）の先頭がアルファベットのA〜Fで始まるデータを全項目抽出し、10件表示せよ。",
 		solutions: [
@@ -172,7 +172,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "14",
-		title: "[あいまい検索]部分一致3",
+		title: "[あいまい検索]  部分一致3",
 		description:
 			"顧客データ（customer）から、ステータスコード（status_cd）の末尾が数字の1〜9で終わるデータを全項目抽出し、10件表示せよ。",
 		solutions: [
@@ -185,7 +185,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "15",
-		title: "[あいまい検索]部分一致4",
+		title: "[あいまい検索]  部分一致4",
 		description:
 			"顧客データ（customer）から、ステータスコード（status_cd）の先頭がアルファベットのA〜Fで始まり、末尾が数字の1〜9で終わるデータを全項目抽出し、10件表示せよ。",
 		solutions: [
@@ -198,7 +198,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "16",
-		title: "[あいまい検索]フォーマット一致",
+		title: "[あいまい検索]  フォーマット一致",
 		description:
 			"店舗データ（store）から、電話番号（tel_no）が3桁-3桁-4桁のデータを全項目表示せよ。",
 		solutions: [
@@ -211,7 +211,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "17",
-		title: "[ソート]並び替え(昇順)",
+		title: "[ソート]  並び替え(昇順)",
 		description:
 			"顧客データ（customer）を生年月日（birth_day）で高齢順にソートし、先頭から全項目を10件表示せよ。",
 		solutions: [
@@ -224,7 +224,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "18",
-		title: "[ソート]並び替え(降順)",
+		title: "[ソート]  並び替え(降順)",
 		description:
 			"顧客データ（customer）を生年月日（birth_day）で若い順にソートし、先頭から全項目を10件表示せよ。",
 		solutions: [
@@ -237,7 +237,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "19",
-		title: "[ソート]順位付け(同一順位あり)",
+		title: "[ソート]  順位付け(同一順位あり)",
 		description:
 			"レシート明細データ（receipt）に対し、1件あたりの売上金額（amount）が高い順にランクを付与し、先頭から10件表示せよ。項目は顧客ID（customer_id）、売上金額（amount）、付与したランクを表示させること。なお、売上金額（amount）が等しい場合は同一順位を付与するものとし、顧客ID (customer_id)の昇順に並べる。",
 		solutions: [
@@ -250,7 +250,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "20",
-		title: "[ソート]順位付け(同一順位なし)",
+		title: "[ソート]  順位付け(同一順位なし)",
 		description:
 			"レシート明細データ（receipt）に対し、1件あたりの売上金額（amount）が高い順、店舗コード (store_cd)の昇順にランクを付与し、先頭から10件表示せよ。項目は顧客ID（customer_id）、売上金額（amount）、付与したランクを表示させること。なお、売上金額（amount）が等しい場合でも別順位を付与すること。",
 		solutions: [
@@ -263,7 +263,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "21",
-		title: "[集計]カウント",
+		title: "[集計]  カウント",
 		description: "レシート明細データ（receipt）に対し、件数をカウントせよ。",
 		solutions: [
 			{
@@ -278,7 +278,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "22",
-		title: "[集計]カウント(ユニーク件数)",
+		title: "[集計]  カウント(ユニーク件数)",
 		description:
 			"レシート明細データ（receipt）の顧客ID（customer_id）に対し、ユニーク件数をカウントせよ。",
 		solutions: [
@@ -290,7 +290,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "23",
-		title: "[集計]合計",
+		title: "[集計]  合計",
 		description:
 			"レシート明細データ（receipt）に対し、店舗コード（store_cd）ごとに売上金額（amount）と売上数量（quantity）を合計せよ。",
 		solutions: [
@@ -303,7 +303,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "24",
-		title: "[集計]最大値",
+		title: "[集計]  最大値",
 		description:
 			"レシート明細データ（receipt）に対し、顧客ID（customer_id）ごとに最も新しい売上年月日（sales_ymd）を求め、10件表示せよ。",
 		solutions: [
@@ -316,7 +316,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "25",
-		title: "[集計]最小値",
+		title: "[集計]  最小値",
 		description:
 			"レシート明細データ（receipt）に対し、顧客ID（customer_id）ごとに最も古い売上年月日（sales_ymd）を求め、10件表示せよ。",
 		solutions: [
@@ -329,7 +329,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "26",
-		title: "[集計]絞り込み1",
+		title: "[集計]  絞り込み1",
 		description:
 			"レシート明細データ（receipt）に対し、顧客ID（customer_id）ごとに最も新しい売上年月日（sales_ymd）と古い売上年月日を求め、両者が異なるデータを10件表示せよ。",
 		solutions: [
@@ -342,7 +342,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "27",
-		title: "[集計]平均",
+		title: "[集計]  平均",
 		description:
 			"レシート明細データ（receipt）に対し、店舗コード（store_cd）ごとに売上金額（amount）の平均を計算し、降順でTOP5を表示せよ。",
 		solutions: [
@@ -355,7 +355,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "28",
-		title: "[集計]中央値",
+		title: "[集計]  中央値",
 		description:
 			"レシート明細データ（receipt）に対し、店舗コード（store_cd）ごとに売上金額（amount）の中央値を計算し、降順でTOP5を表示せよ。",
 		solutions: [
@@ -368,7 +368,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "29",
-		title: "[集計]最頻値",
+		title: "[集計]  最頻値",
 		description:
 			"レシート明細データ（receipt）に対し、店舗コード（store_cd）ごとに商品コード（product_cd）の最頻値を求め、10件表示させよ。",
 		solutions: [
@@ -386,7 +386,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "30",
-		title: "[集計]分散",
+		title: "[集計]  分散",
 		description:
 			"レシート明細データ（receipt）に対し、店舗コード（store_cd）ごとに売上金額（amount）の分散を計算し、降順で5件表示せよ。",
 		solutions: [
@@ -399,7 +399,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "31",
-		title: "[集計]標準偏差",
+		title: "[集計]  標準偏差",
 		description:
 			"レシート明細データ（receipt）に対し、店舗コード（store_cd）ごとに売上金額（amount）の標準偏差を計算し、降順で5件表示せよ。",
 		solutions: [
@@ -412,7 +412,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "32",
-		title: "[集計]パーセンタイル",
+		title: "[集計]  パーセンタイル",
 		description:
 			"レシート明細データ（receipt）の売上金額（amount）について、25％刻みでパーセンタイル値を求めよ。",
 		solutions: [
@@ -425,7 +425,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "33",
-		title: "[集計]絞り込み2",
+		title: "[集計]  絞り込み2",
 		description:
 			"レシート明細データ（receipt）に対し、店舗コード（store_cd）ごとに売上金額（amount）の平均を計算し、330以上のものを抽出せよ。",
 		solutions: [
@@ -438,7 +438,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "34",
-		title: "[集計]サブクエリ1",
+		title: "[集計]  サブクエリ1",
 		description:
 			'レシート明細データ（receipt）に対し、顧客ID（customer_id）ごとに売上金額（amount）を合計して全顧客の平均を求めよ。ただし、顧客IDが"Z"から始まるものは非会員を表すため、除外して計算すること。',
 		solutions: [
@@ -450,7 +450,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "35",
-		title: "[集計]サブクエリ2",
+		title: "[集計]  サブクエリ2",
 		description:
 			'レシート明細データ（receipt）に対し、顧客ID（customer_id）ごとに売上金額（amount）を合計して全顧客の平均を求め、平均以上に買い物をしている顧客を抽出し、10件表示せよ。ただし、顧客IDが"Z"から始まるものは非会員を表すため、除外して計算すること。',
 		solutions: [
@@ -463,7 +463,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "36",
-		title: "[結合]内部結合1",
+		title: "[結合]  内部結合1",
 		description:
 			"レシート明細データ（receipt）と店舗データ（store）を店舗コード(store_cd)で内部結合し、レシート明細データの全項目と店舗データの店舗名（store_name）を10件表示せよ。",
 		solutions: [
@@ -476,7 +476,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "37",
-		title: "[結合]内部結合2",
+		title: "[結合]  内部結合2",
 		description:
 			"商品データ（product）とカテゴリデータ（category）をカテゴリ小区分コード(category_small_cd)で内部結合し、商品データの全項目とカテゴリデータのカテゴリ小区分名（category_small_name）を10件表示せよ。",
 		solutions: [
@@ -489,7 +489,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "38",
-		title: "[結合]結合1",
+		title: "[結合]  結合1",
 		description:
 			'顧客データ（customer）とレシート明細データ（receipt）から、顧客ごとの売上金額合計を求め、売上合計金額の降順、顧客IDの昇順で10件表示せよ。ただし、売上実績がない顧客については売上金額を0として表示させること。また、顧客は性別コード（gender_cd）が女性（1）であるものを対象とし、非会員（顧客IDが"Z"から始まるもの）は除外すること。',
 		solutions: [
@@ -502,7 +502,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "39",
-		title: "[結合]結合2",
+		title: "[結合]  結合2",
 		description:
 			'レシート明細データ（receipt）から、売上日数の多い顧客の上位20件を抽出したデータと、売上金額合計の多い顧客の上位20件を抽出したデータをそれぞれ作成し、さらにその2つを完全外部結合せよ。ただし、非会員（顧客IDが"Z"から始まるもの）は除外すること。',
 		solutions: [
@@ -515,7 +515,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "40",
-		title: "[結合]結合3",
+		title: "[結合]  結合3",
 		description:
 			"全ての店舗と全ての商品を組み合わせたデータを作成したい。店舗データ（store）と商品データ（product）を直積し、件数を計算せよ。",
 		solutions: [
@@ -527,7 +527,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "41",
-		title: "[結合]N件前の結合1",
+		title: "[結合]  N件前の結合1",
 		description:
 			"レシート明細データ（receipt）の売上金額（amount）を日付（sales_ymd）ごとに集計し、前回売上があった日からの売上金額増減を計算せよ。そして結果を10件表示せよ。",
 		solutions: [
@@ -540,7 +540,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "42",
-		title: "[結合]N件前の結合2",
+		title: "[結合]  N件前の結合2",
 		description:
 			"レシート明細データ（receipt）の売上金額（amount）を日付（sales_ymd）ごとに集計し、各日付のデータに対し、前回、前々回、3回前に売上があった日のデータを結合せよ。そして結果を10件表示せよ。",
 		solutions: [
@@ -558,7 +558,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "43",
-		title: "[縦横変換]縦→横",
+		title: "[縦横変換]  縦→横",
 		description:
 			"レシート明細データ（receipt）と顧客データ（customer）を結合し、性別コード（gender_cd）と年代（ageから計算）ごとに売上金額（amount）を合計した売上サマリデータを作成せよ。性別コードは0が男性、1が女性、9が不明を表すものとする。ただし、項目構成は年代、女性の売上金額、男性の売上金額、性別不明の売上金額の4項目とすること（縦に年代、横に性別のクロス集計）。また、年代は10歳ごとの階級とすること。",
 		solutions: [
@@ -571,7 +571,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "44",
-		title: "[縦横変換]横→縦",
+		title: "[縦横変換]  横→縦",
 		description:
 			'「[縦横変換]縦→横」で作成した売上サマリデータ（sales_summary）は性別の売上を横持ちさせたものであった。このデータから性別を縦持ちさせ、年代、性別コード、売上金額の3項目に変換せよ。ただし、性別コードは男性を"00"、女性を"01"、不明を"99"とする。\n\n[縦横変換]縦→横: レシート明細データ（receipt）と顧客データ（customer）を結合し、性別コード（gender_cd）と年代（ageから計算）ごとに売上金額（amount）を合計した売上サマリデータを作成せよ。性別コードは0が男性、1が女性、9が不明を表すものとする。ただし、項目構成は年代、女性の売上金額、男性の売上金額、性別不明の売上金額の4項目とすること（縦に年代、横に性別のクロス集計）。また、年代は10歳ごとの階級とすること。',
 		solutions: [
@@ -584,7 +584,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "45",
-		title: "[データ変換]日付型→文字列型",
+		title: "[データ変換]  日付型→文字列型",
 		description:
 			"顧客データ（customer）の生年月日（birth_day）は日付型でデータを保有している。これをYYYYMMDD形式の文字列に変換し、顧客ID（customer_id）とともに10件表示せよ。",
 		solutions: [
@@ -597,7 +597,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "46",
-		title: "[データ変換]文字列型→日付型",
+		title: "[データ変換]  文字列型→日付型",
 		description:
 			"顧客データ（customer）の申し込み日（application_date）はYYYYMMDD形式の文字列型でデータを保有している。これを日付型に変換し、顧客ID（customer_id）とともに10件表示せよ。",
 		solutions: [
@@ -610,7 +610,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "47",
-		title: "[データ変換]数値型→日付型",
+		title: "[データ変換]  数値型→日付型",
 		description:
 			"レシート明細データ（receipt）の売上日（sales_ymd）はYYYYMMDD形式の数値型でデータを保有している。これを日付型に変換し、レシート番号(receipt_no)、レシートサブ番号（receipt_sub_no）とともに10件表示せよ。",
 		solutions: [
@@ -623,7 +623,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "48",
-		title: "[データ変換]UNIX秒→日付型",
+		title: "[データ変換]  UNIX秒→日付型",
 		description:
 			"レシート明細データ（receipt）の売上エポック秒（sales_epoch）は数値型のUNIX秒でデータを保有している。これを日付型に変換し、レシート番号(receipt_no)、レシートサブ番号（receipt_sub_no）とともに10件表示せよ。",
 		solutions: [
@@ -636,7 +636,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "49",
-		title: "[データ変換]日付の取り出し(年)",
+		title: "[データ変換]  日付の取り出し(年)",
 		description:
 			"レシート明細データ（receipt）の売上エポック秒（sales_epoch）を日付型に変換し、「年」だけ取り出してレシート番号(receipt_no)、レシートサブ番号（receipt_sub_no）とともに10件表示せよ。",
 		solutions: [
@@ -649,7 +649,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "50",
-		title: "[データ変換]日付の取り出し(月)",
+		title: "[データ変換]  日付の取り出し(月)",
 		description:
 			"レシート明細データ（receipt）の売上エポック秒（sales_epoch）を日付型に変換し、「月」だけ取り出してレシート番号(receipt_no)、レシートサブ番号（receipt_sub_no）とともに10件表示せよ。なお、「月」は0埋め2桁で取り出すこと。",
 		solutions: [
@@ -662,7 +662,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "51",
-		title: "[データ変換]日付の取り出し(日)",
+		title: "[データ変換]  日付の取り出し(日)",
 		description:
 			"レシート明細データ（receipt）の売上エポック秒(sales_epoch)を日付型に変換し、「日」だけ取り出してレシート番号(receipt_no)、レシートサブ番号（receipt_sub_no）とともに10件表示せよ。なお、「日」は0埋め2桁で取り出すこと。",
 		solutions: [
@@ -675,7 +675,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "52",
-		title: "[データ変換]数値データの二値化",
+		title: "[データ変換]  数値データの二値化",
 		description:
 			'レシート明細データ（receipt）の売上金額（amount）を顧客ID（customer_id）ごとに合計の上、売上金額合計に対して2,000円以下を0、2,000円より大きい金額を1に二値化し、顧客ID、売上金額合計とともに10件表示せよ。ただし、顧客IDが"Z"から始まるのものは非会員を表すため、除外して計算すること。',
 		solutions: [
@@ -688,7 +688,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "53",
-		title: "[データ変換]文字データの二値化",
+		title: "[データ変換]  文字データの二値化",
 		description:
 			"顧客データ（customer）の郵便番号（postal_cd）に対し、東京（先頭3桁が100〜209のもの）を1、それ以外のものを0に二値化せよ。さらにレシート明細データ（receipt）と結合し、全期間において売上実績のある顧客数を、作成した二値ごとにカウントせよ。",
 		solutions: [
@@ -700,7 +700,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "54",
-		title: "[データ変換]カテゴライズ1",
+		title: "[データ変換] カテゴライズ1",
 		description:
 			"顧客データ（customer）の住所（address）は、埼玉県、千葉県、東京都、神奈川県のいずれかとなっている。都道府県毎にコード値を作成し、顧客ID、住所とともに10件表示せよ。値は埼玉県を11、千葉県を12、東京都を13、神奈川県を14とすること。",
 		solutions: [
@@ -723,7 +723,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "55",
-		title: "[データ変換]カテゴライズ2",
+		title: "[データ変換] カテゴライズ2",
 		description:
 			"レシート明細（receipt）データの売上金額（amount）を顧客ID（customer_id）ごとに合計し、その合計金額の四分位点を求めよ。その上で、顧客ごとの売上金額合計に対して以下の基準でカテゴリ値を作成し、顧客ID、売上金額合計とともに10件表示せよ。カテゴリ値は順に1〜4とする。\n\n最小値以上第1四分位未満 ・・・ 1を付与\n第1四分位以上第2四分位未満 ・・・ 2を付与\n第2四分位以上第3四分位未満 ・・・ 3を付与\n第3四分位以上 ・・・ 4を付与",
 		solutions: [
@@ -736,7 +736,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "56",
-		title: "[データ変換]カテゴライズ3",
+		title: "[データ変換] カテゴライズ3",
 		description:
 			"顧客データ（customer）の年齢（age）をもとに10歳刻みで年代を算出し、顧客ID（customer_id）、生年月日（birth_day）とともに10件表示せよ。ただし、60歳以上は全て60歳代とすること。年代を表すカテゴリ名は任意とする。",
 		solutions: [
@@ -749,7 +749,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "57",
-		title: "[データ変換]カテゴライズ4",
+		title: "[データ変換] カテゴライズ4",
 		description:
 			"「[データ変換]カテゴライズ3」の抽出結果と性別コード（gender_cd）により、新たに性別×年代の組み合わせを表すカテゴリデータを作成し、10件表示せよ。組み合わせを表すカテゴリの値はgender_cdと年代を組み合わせた文字列(例: 030)とする。\n\n[データ変換]カテゴライズ3: 顧客データ（customer）の年齢（age）をもとに10歳刻みで年代を算出し、顧客ID（customer_id）、生年月日（birth_day）とともに10件表示せよ。ただし、60歳以上は全て60歳代とすること。年代を表すカテゴリ名は任意とする。",
 		solutions: [
@@ -762,7 +762,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "58",
-		title: "[データ変換]ダミー変数化",
+		title: "[データ変換] ダミー変数化",
 		description:
 			"顧客データ（customer）の性別コード（gender_cd）をダミー変数化し、顧客ID（customer_id）とともに10件表示せよ。",
 		solutions: [
@@ -775,7 +775,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "59",
-		title: "[数値化]正規化(z-score)",
+		title: "[数値化] 正規化(z-score)",
 		description:
 			'レシート明細データ（receipt）の売上金額（amount）を顧客ID（customer_id）ごとに合計し、売上金額合計を平均0、標準偏差1に標準化して顧客ID、売上金額合計とともに10件表示せよ。標準化に使用する標準偏差は、分散の平方根、もしくは不偏分散の平方根のどちらでも良いものとする。ただし、顧客IDが"Z"から始まるのものは非会員を表すため、除外して計算すること。',
 		solutions: [
@@ -793,7 +793,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "60",
-		title: "[数値化]正規化(Min=0,Max=1)",
+		title: "[数値化] 正規化(Min=0,Max=1)",
 		description:
 			'レシート明細データ（receipt）の売上金額（amount）を顧客ID（customer_id）ごとに合計し、売上金額合計を最小値0、最大値1に正規化して顧客ID、売上金額合計とともに10件表示せよ。ただし、顧客IDが"Z"から始まるのものは非会員を表すため、除外して計算すること。',
 		solutions: [
@@ -806,7 +806,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "61",
-		title: "[数値化]対数化1",
+		title: "[数値化] 対数化1",
 		description:
 			'レシート明細データ（receipt）の売上金額（amount）を顧客ID（customer_id）ごとに合計し、売上金額合計に0.5を加えたうえで常用対数化（底10）して顧客ID、売上金額合計とともに10件表示せよ。ただし、顧客IDが"Z"から始まるのものは非会員を表すため、除外して計算すること。',
 		solutions: [
@@ -819,7 +819,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "62",
-		title: "[数値化]対数化2",
+		title: "[数値化] 対数化2",
 		description:
 			'レシート明細データ（receipt）の売上金額（amount）を顧客ID（customer_id）ごとに合計し、売上金額合計に0.5を加えたうえで自然対数化（底e）して顧客ID、売上金額合計とともに10件表示せよ。ただし、顧客IDが"Z"から始まるのものは非会員を表すため、除外して計算すること。',
 		solutions: [
@@ -832,7 +832,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "63",
-		title: "[四則演算]引き算",
+		title: "[四則演算] 引き算",
 		description:
 			"商品データ（product）の単価（unit_price）と原価（unit_cost）から各商品の利益額を算出し、結果を10件表示せよ。",
 		solutions: [
@@ -845,7 +845,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "64",
-		title: "[四則演算]割り算",
+		title: "[四則演算] 割り算",
 		description:
 			"商品データ（product）の単価（unit_price）と原価（unit_cost）から、各商品の利益率の全体平均を算出せよ。ただし、単価と原価には欠損が生じていることに注意せよ。",
 		solutions: [
@@ -857,7 +857,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "65",
-		title: "[四則演算]有効桁数",
+		title: "[四則演算] 有効桁数",
 		description:
 			"商品データ（product）の各商品について、利益率が30%となる新たな単価を求めよ。ただし、1円未満は切り捨てること。そして結果を10件表示させ、利益率がおよそ30％付近であることを確認せよ。ただし、単価（unit_price）と原価（unit_cost）には欠損が生じていることに注意せよ。",
 		solutions: [
@@ -870,7 +870,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "66",
-		title: "[四則演算]四捨五入",
+		title: "[四則演算] 四捨五入",
 		description:
 			"商品データ（product）の各商品について、利益率が30%となる新たな単価を求めよ。今回は、1円未満を丸めること（四捨五入または偶数への丸めで良い）。そして結果を10件表示させ、利益率がおよそ30％付近であることを確認せよ。ただし、単価（unit_price）と原価（unit_cost）には欠損が生じていることに注意せよ。",
 		solutions: [
@@ -883,7 +883,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "67",
-		title: "[四則演算]切り上げ",
+		title: "[四則演算] 切り上げ",
 		description:
 			"商品データ（product）の各商品について、利益率が30%となる新たな単価を求めよ。今回は、1円未満を切り上げること。そして結果を10件表示させ、利益率がおよそ30％付近であることを確認せよ。ただし、単価（unit_price）と原価（unit_cost）には欠損が生じていることに注意せよ。",
 		solutions: [
@@ -896,7 +896,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "68",
-		title: "[四則演算]切り捨て",
+		title: "[四則演算] 切り捨て",
 		description:
 			"商品データ（product）の各商品について、消費税率10％の税込み金額を求めよ。1円未満の端数は切り捨てとし、結果を10件表示せよ。ただし、単価（unit_price）には欠損が生じていることに注意せよ。",
 		solutions: [
@@ -909,7 +909,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "69",
-		title: "[四則演算]割合",
+		title: "[四則演算] 割合",
 		description:
 			'レシート明細データ（receipt）と商品データ（product）を商品コード(product_cd)で結合し、顧客毎に全商品の売上金額合計と、カテゴリ大区分コード（category_major_cd）が"07"（瓶詰缶詰）の売上金額合計を計算の上、両者の比率を求めよ。抽出対象はカテゴリ大区分コード"07"（瓶詰缶詰）の売上実績がある顧客のみとし、結果を10件表示せよ。',
 		solutions: [
@@ -922,7 +922,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "70",
-		title: "[四則演算]経過日数の計算1",
+		title: "[四則演算] 経過日数の計算1",
 		description:
 			"レシート明細データ（receipt）の売上日（sales_ymd）に対し、顧客データ（customer）の会員申込日（application_date）からの経過日数を計算し、顧客ID（customer_id）、売上日、会員申込日とともに経過日数の降順、会員申込日の降順で10件表示せよ（sales_ymdは数値、application_dateは文字列でデータを保持している点に注意）。",
 		solutions: [
@@ -935,7 +935,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "71",
-		title: "[四則演算]経過日数の計算2",
+		title: "[四則演算] 経過日数の計算2",
 		description:
 			"レシート明細データ（receipt）の売上日（sales_ymd）に対し、顧客データ（customer）の会員申込日（application_date）からの経過月数を計算し、顧客ID（customer_id）、売上日、会員申込日とともに経過月数の降順、売上日の降順で10件表示せよ（sales_ymdは数値、application_dateは文字列でデータを保持している点に注意）。1ヶ月未満は切り捨てること。",
 		solutions: [
@@ -948,7 +948,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "72",
-		title: "[四則演算]経過年数",
+		title: "[四則演算] 経過年数",
 		description:
 			"レシート明細データ（receipt）の売上日（sales_ymd）に対し、顧客データ（customer）の会員申込日（application_date）からの経過年数を計算し、顧客ID（customer_id）、売上日、会員申込日とともに経過年数の降順、販売日の降順、会員申込日の降順で10件表示せよ（sales_ymdは数値、application_dateは文字列でデータを保持している点に注意）。1年未満は切り捨てること。",
 		solutions: [
@@ -961,7 +961,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "73",
-		title: "[四則演算]経過時間",
+		title: "[四則演算] 経過時間",
 		description:
 			"レシート明細データ（receipt）の売上日（sales_ymd）に対し、顧客データ（customer）の会員申込日（application_date）からのエポック秒による経過時間を計算し、顧客ID（customer_id）、売上日、会員申込日とともに経過時間の降順、sales_ymdの降順で10件表示せよ（なお、sales_ymdは数値、application_dateは文字列でデータを保持している点に注意）。なお、時間情報は保有していないため各日付は0時0分0秒を表すものとする。",
 		solutions: [
@@ -974,7 +974,7 @@ export const allProblems: Problem[] = [
 	},
 	{
 		id: "74",
-		title: "[四則演算]月曜からの経過日数",
+		title: "[四則演算] 月曜からの経過日数",
 		description:
 			"レシート明細データ（receipt）の売上日（sales_ymd）に対し、当該週の月曜日からの経過日数を計算し、売上日、直前の月曜日付とともに10件表示せよ（sales_ymdは数値でデータを保持している点に注意）。",
 		solutions: [

@@ -23,7 +23,7 @@ const button = tv({
 			},
 		},
 		disabled: {
-			true: { base: "cursor-not-allowed pointer-events-none opacity-50" },
+			true: { base: "pointer-events-none opacity-50 select-none" },
 		},
 	},
 	defaultVariants: { size: "md", color: "primary" },
@@ -33,6 +33,7 @@ type ButtonProps = VariantProps<typeof button> & {
 	leftIconClass?: string;
 	rightIconClass?: string;
 	children: ReactNode;
+	onClick?: () => void;
 };
 
 export function Button({
@@ -42,6 +43,7 @@ export function Button({
 	leftIconClass,
 	rightIconClass,
 	children,
+	onClick,
 	...props
 }: ButtonProps) {
 	const classes = button({
@@ -56,6 +58,7 @@ export function Button({
 			type="button"
 			className={classes.base()}
 			disabled={disabled}
+			onClick={onClick}
 		>
 			{leftIconClass ? (
 				<span className={clsx(leftIconClass, classes.icon())} />

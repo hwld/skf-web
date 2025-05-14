@@ -1,7 +1,10 @@
 import clsx from "clsx";
+import { NavLink } from "react-router";
 import PageTitle from "~/components/page-title";
 import { buildInProblemSet } from "~/data/build-in-problem-set";
 import type { ProblemSet } from "~/models/problem";
+import { Paths } from "./paths";
+import { Tooltip, TooltipProvider } from "~/components/tooltip";
 
 export function meta() {
 	return [{ title: "skf-web" }, { name: "description", content: "skf-web" }];
@@ -13,8 +16,8 @@ export default function Home() {
 			<div className="flex flex-col gap-4">
 				<PageTitle iconClass="i-tabler-folders" title="問題セット" />
 
-				<button
-					type="button"
+				<NavLink
+					to={Paths.createProblem}
 					className="border border-primary-600 bg-primary-700/15 rounded-lg p-4 w-full gap-2 flex flex-col items-center hover:bg-primary-700/25 transition duration-100"
 				>
 					<span className="i-tabler-folder-plus size-8" />
@@ -22,7 +25,7 @@ export default function Home() {
 					<p className="text-base-300 text-xs">
 						※LocalStorageに保存されるため、キャッシュ削除などで消えてしまう可能性があります。
 					</p>
-				</button>
+				</NavLink>
 
 				<div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(400px,1fr))]">
 					{buildInProblemSet.map((set) => {
@@ -53,16 +56,27 @@ function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
 				<p className="text-base font-bold truncate">{problemSet.title}</p>
 			</div>
 			<div className="flex justify-between items-end">
-				<button
-					type="button"
+				<NavLink
+					to={Paths.playProblemSet(problemSet)}
 					className="size-12 rounded-full bg-primary-400 flex items-center justify-center hover:bg-primary-300 transition duration-100"
 				>
 					<span className="i-tabler-player-play-filled size-6 text-base-700 ml-0.5" />
-				</button>
+				</NavLink>
 				<div className="flex gap-2">
-					<ProblemSetCardButton iconClass="i-tabler-upload" />
-					<ProblemSetCardButton iconClass="i-tabler-edit" />
-					<ProblemSetCardButton iconClass="i-tabler-trash" />
+					<TooltipProvider>
+						<Tooltip
+							label="問題セットを共有する"
+							trigger={<ProblemSetCardButton iconClass="i-tabler-upload" />}
+						/>
+						<Tooltip
+							label="問題セットを編集する"
+							trigger={<ProblemSetCardButton iconClass="i-tabler-edit" />}
+						/>
+						<Tooltip
+							label="問題セットを削除する"
+							trigger={<ProblemSetCardButton iconClass="i-tabler-trash" />}
+						/>
+					</TooltipProvider>
 				</div>
 			</div>
 		</div>
@@ -71,9 +85,13 @@ function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
 
 type ProblemSetCardButtonProps = { iconClass: string };
 
-function ProblemSetCardButton({ iconClass }: ProblemSetCardButtonProps) {
+function ProblemSetCardButton({
+	iconClass,
+	...props
+}: ProblemSetCardButtonProps) {
 	return (
 		<button
+			{...props}
 			type="button"
 			className="size-7 group hover:bg-base-500 rounded-sm grid place-items-center transition duration-100"
 		>

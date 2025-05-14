@@ -9,8 +9,8 @@ export const Paths = {
 
 	playProblemSet: (problemSet: ProblemSet) => {
 		const searchParams = new URLSearchParams();
-
 		searchParams.set(playProblemSetParamName, JSON.stringify(problemSet));
+
 		return `/problem-sets/play?${searchParams.toString()}`;
 	},
 };

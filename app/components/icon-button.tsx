@@ -3,7 +3,7 @@ import { tv, type VariantProps } from "tailwind-variants";
 
 const button = tv({
 	slots: {
-		base: "rounded-sm grid place-items-center transition duration-100 hover:bg-white/15",
+		base: "rounded-sm grid place-items-center transition duration-100 hover:bg-white/15 text-base-100",
 		icon: "",
 	},
 	variants: {

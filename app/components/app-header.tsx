@@ -5,7 +5,7 @@ import { Paths } from "~/routes/paths";
 export function AppHeader() {
 	return (
 		<header className="h-14 bg-base-800 border border-base-700 rounded-lg px-4 grid grid-cols-[auto_1fr] items-center gap-4">
-			<img src="./logo.svg" alt="Logo" className="h-5" />
+			<img src="/logo.svg" alt="Logo" className="h-5" />
 			<div className="flex gap-2">
 				<AppHeaderLink
 					to={Paths.home}

@@ -1,5 +1,15 @@
 {
+    "editor.wordWrap": "on",
     "files.associations": {
         "app.css": "tailwindcss"
-    }
+    },
+    "tailwindCSS.experimental.classRegex": [
+        [
+            "([\"'`][^\"'`]*.*?[\"'`])",
+            "[\"'`]([^\"'`]*).*?[\"'`]"
+        ],
+        [
+            "[iI]con.*"
+        ]
+    ]
 }

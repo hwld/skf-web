@@ -1,4 +1,14 @@
 @import "tailwindcss";
+@plugin "@egoist/tailwindcss-icons" {
+  scale: 1.5;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 @theme {
   --font-sans: "Helvetica Neue", "Arial", "Hiragino Kaku Gothic ProN",
@@ -27,9 +37,4 @@
   --color-primary-800: oklch(0.398 0.195 277.366);
   --color-primary-900: oklch(0.359 0.144 278.697);
   --color-primary-950: oklch(0.257 0.09 281.288);
-}
-
-html,
-body {
-  @apply bg-base-950 text-base-100;
 }

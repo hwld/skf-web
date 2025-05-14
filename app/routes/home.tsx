@@ -1,9 +1,7 @@
 import clsx from "clsx";
-import { AppHeader } from "~/components/app-header";
 import PageTitle from "~/components/page-title";
 import { buildInProblemSet } from "~/data/build-in-problem-set";
 import type { ProblemSet } from "~/models/problem";
-import type { Route } from "./+types/home";
 
 export function meta() {
 	return [{ title: "skf-web" }, { name: "description", content: "skf-web" }];

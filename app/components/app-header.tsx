@@ -1,14 +1,19 @@
 import clsx from "clsx";
 import { NavLink } from "react-router";
+import { Paths } from "~/routes/paths";
 
 export function AppHeader() {
 	return (
 		<header className="h-14 bg-base-800 border border-base-700 rounded-lg px-4 grid grid-cols-[auto_1fr] items-center gap-4">
 			<img src="./logo.svg" alt="Logo" className="h-5" />
 			<div className="flex gap-2">
-				<AppHeaderLink to="/" iconClass="i-tabler-home" title="ホーム" />
 				<AppHeaderLink
-					to="/problem-set/create"
+					to={Paths.home}
+					iconClass="i-tabler-home"
+					title="ホーム"
+				/>
+				<AppHeaderLink
+					to={Paths.createProblem}
 					iconClass="i-tabler-folder-plus"
 					title="問題セット作成"
 				/>

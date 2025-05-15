@@ -1,6 +1,6 @@
 import { Separator, Tabs } from "@base-ui-components/react";
 import type { editor } from "monaco-editor";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useSearchParams } from "react-router";
 import { Button } from "~/components/button";
 import { useDb } from "~/components/db-provider";
@@ -42,6 +42,7 @@ export default function ProblemSetPlay() {
 		prevProblem,
 		progressRate,
 		changeProblemStatus,
+		setErrorResult,
 	} = usePlayableProblemSet(params);
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
@@ -54,15 +55,98 @@ export default function ProblemSetPlay() {
 			return;
 		}
 
-		// TODO:
-		const result = await db.query<string[]>(sql, [], { rowMode: "array" });
+		// COMMITを入力されると意味ないんだけど、ミスをできるだけ減らすためにユーザーの操作をトランザクションで囲んで必ずロールバックする
+		await db.transaction(async (tx) => {
+			try {
+				const lastResult = (await tx.exec(sql, { rowMode: "array" })).at(-1);
+				if (!lastResult) {
+					return;
+				}
 
-		// TODO: 省略してることを表現できると良いかも
-		changeProblemStatus(currentProblem.id, "success", {
-			...result,
-			rows: result.rows.slice(0, 100),
+				//TODO: 期待する結果と判定を行う
+
+				changeProblemStatus(currentProblem.id, "right", {
+					...lastResult,
+					rows: lastResult.rows.slice(0, 100) as string[][],
+					isTruncated: lastResult.rows.length > 100,
+				});
+			} catch (e) {
+				if (e instanceof Error) {
+					setErrorResult(currentProblem.id, e.message);
+				}
+			} finally {
+				await tx.rollback();
+			}
 		});
 	}
+
+	const resultContent = useMemo(() => {
+		switch (currentProblem.status) {
+			case "idle": {
+				return (
+					<p className="text-base-300">
+						SQLを実行すると、ここに結果が表示されます
+					</p>
+				);
+			}
+			case "error": {
+				return <p className="text-red-400">Error: {currentProblem.message}</p>;
+			}
+			case "right":
+			case "wrong": {
+				return (
+					<>
+						<p className="text-base-300 text-xs">実行結果</p>
+						<Table>
+							<TableHead>
+								<TableRow>
+									{currentProblem.result.fields.map((f) => {
+										return <TableHeader key={f.name}>{f.name}</TableHeader>;
+									})}
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{currentProblem.result.rows.length > 0 ? (
+									<>
+										{currentProblem.result.rows.map((row, i) => {
+											return (
+												// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+												<TableRow key={i}>
+													{row.map((v, i) => {
+														return <TableData key={`${i}-${v}`}>{v}</TableData>;
+													})}
+												</TableRow>
+											);
+										})}
+										{currentProblem.result.isTruncated ? (
+											<TableRow>
+												<TableData
+													colSpan={currentProblem.result.fields.length}
+												>
+													<span className="text-base-300 text-xs">
+														100行を超えると省略されます...
+													</span>
+												</TableData>
+											</TableRow>
+										) : null}
+									</>
+								) : (
+									<TableRow>
+										<TableData colSpan={currentProblem.result.fields.length}>
+											データが存在しません
+										</TableData>
+									</TableRow>
+								)}
+							</TableBody>
+						</Table>
+					</>
+				);
+			}
+			default: {
+				throw new Error(currentProblem satisfies never);
+			}
+		}
+	}, [currentProblem]);
 
 	return (
 		<div className="grid grid-cols-[1fr_auto] gap-4 min-h-0">
@@ -112,38 +196,7 @@ export default function ProblemSetPlay() {
 						<PanelTitle iconClass="i-tabler-prompt" title="Result" />
 					</PanelHeader>
 					<PanelBody>
-						<div className="flex flex-col gap-2">
-							{currentProblem.status !== "idle" ? (
-								<>
-									<p className="text-base-300 text-xs">実行結果</p>
-									<Table>
-										<TableHead>
-											<TableRow>
-												{currentProblem.result.fields.map((f) => {
-													return (
-														<TableHeader key={f.name}>{f.name}</TableHeader>
-													);
-												})}
-											</TableRow>
-										</TableHead>
-										<TableBody>
-											{currentProblem.result.rows.map((row, i) => {
-												return (
-													// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-													<TableRow key={`${i}-${i}`}>
-														{row.map((v, i) => {
-															return (
-																<TableData key={`${i}-${v}`}>{v}</TableData>
-															);
-														})}
-													</TableRow>
-												);
-											})}
-										</TableBody>
-									</Table>
-								</>
-							) : null}
-						</div>
+						<div className="flex flex-col gap-2 w-fit">{resultContent}</div>
 					</PanelBody>
 				</Panel>
 			</div>

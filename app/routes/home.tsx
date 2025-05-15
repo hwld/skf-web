@@ -65,17 +65,20 @@ function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
 				<div className="flex gap-2">
 					<TooltipProvider>
 						<Tooltip
-							label="問題セットを共有する"
 							trigger={<ProblemSetCardButton iconClass="i-tabler-upload" />}
-						/>
+						>
+							問題セットを共有する
+						</Tooltip>
 						<Tooltip
-							label="問題セットを編集する"
 							trigger={<ProblemSetCardButton iconClass="i-tabler-edit" />}
-						/>
+						>
+							問題セットを編集する
+						</Tooltip>
 						<Tooltip
-							label="問題セットを削除する"
 							trigger={<ProblemSetCardButton iconClass="i-tabler-trash" />}
-						/>
+						>
+							問題セットを削除する
+						</Tooltip>
 					</TooltipProvider>
 				</div>
 			</div>

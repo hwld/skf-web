@@ -1,19 +1,19 @@
 import { Tooltip as BaseTooltip } from "@base-ui-components/react";
-import type { JSX, PropsWithChildren } from "react";
+import type { JSX, PropsWithChildren, ReactNode } from "react";
 
 type Props = {
-	label: string;
+	children: ReactNode;
 	trigger: JSX.Element;
 };
 
-export function Tooltip({ label, trigger }: Props) {
+export function Tooltip({ children, trigger }: Props) {
 	return (
 		<BaseTooltip.Root>
 			<BaseTooltip.Trigger render={trigger} />
 			<BaseTooltip.Portal>
 				<BaseTooltip.Positioner sideOffset={10}>
 					<BaseTooltip.Popup className="bg-neutral-700 border border-neutral-600 rounded-sm px-3 h-7 flex items-center text-neutral-100 shadow">
-						{label}
+						{children}
 					</BaseTooltip.Popup>
 				</BaseTooltip.Positioner>
 			</BaseTooltip.Portal>

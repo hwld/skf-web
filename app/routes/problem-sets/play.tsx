@@ -1,10 +1,11 @@
 import { Separator, Tabs } from "@base-ui-components/react";
-import type { editor } from "monaco-editor";
+import { KeyCode, KeyMod, type editor } from "monaco-editor";
 import { useMemo, useRef } from "react";
 import { useSearchParams } from "react-router";
 import { Button } from "~/components/button";
 import { useDb } from "~/components/db-provider";
 import { IconButton } from "~/components/icon-button";
+import { Kbd, KbdList } from "~/components/kbd";
 import {
 	Panel,
 	PanelBody,
@@ -16,7 +17,7 @@ import {
 } from "~/components/panel";
 import { ProblemStatusBadge } from "~/components/problem-status-badge";
 import { ProgressBar } from "~/components/progress-bar";
-import { SqlEditor } from "~/components/sql-editor";
+import { SqlEditor, type SqlEditorCommand } from "~/components/sql-editor";
 import {
 	Table,
 	TableBody,
@@ -44,12 +45,47 @@ export default function ProblemSetPlay() {
 		changeProblemStatus,
 		setErrorResult,
 	} = usePlayableProblemSet(params);
+
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+	const editorCommands: SqlEditorCommand[] = [
+		{
+			id: "run",
+			keybinding: KeyMod.CtrlCmd | KeyCode.Enter,
+			handler: () => {
+				handleClickRun();
+			},
+		},
+		{
+			id: "prev",
+			keybinding: KeyMod.CtrlCmd | KeyCode.KeyD,
+			handler: prevProblem,
+		},
+		{
+			id: "next",
+			keybinding: KeyMod.CtrlCmd | KeyCode.KeyL,
+			handler: nextProblem,
+		},
+	];
+	const runCommandKbd = (
+		<KbdList>
+			<Kbd>Cmd</Kbd>+<Kbd>Enter</Kbd>
+		</KbdList>
+	);
+	const prevCommandKbd = (
+		<KbdList>
+			<Kbd>Cmd</Kbd>+<Kbd>D</Kbd>
+		</KbdList>
+	);
+	const nextCommandKbd = (
+		<KbdList>
+			<Kbd>Cmd</Kbd>+<Kbd>L</Kbd>
+		</KbdList>
+	);
 
 	const db = useDb();
 	const isDbLoading = db === undefined;
 
-	async function handleClickExecute() {
+	async function handleClickRun() {
 		const sql = editorRef.current?.getValue();
 		if (!sql || !db) {
 			return;
@@ -156,37 +192,61 @@ export default function ProblemSetPlay() {
 						<PanelTitle iconClass="i-tabler-code" title="SQL editor" />
 					</PanelHeader>
 					<PanelBody noPadding>
-						<SqlEditor ref={editorRef} problem={currentProblem} />
+						<SqlEditor
+							ref={editorRef}
+							problem={currentProblem}
+							commands={editorCommands}
+						/>
 					</PanelBody>
 					<PanelFooter>
 						<div className="flex items-center gap-2">
-							<Button
-								color="secondary"
-								leftIconClass="i-tabler-chevron-left"
-								disabled={isFirstProblem}
-								onClick={prevProblem}
-							>
-								前の問題
-							</Button>
-							<Button
-								color="secondary"
-								rightIconClass="i-tabler-chevron-right"
-								disabled={isLastProblem}
-								onClick={nextProblem}
-							>
-								次の問題
-							</Button>
-							<Button
-								leftIconClass={
-									isDbLoading
-										? "i-tabler-loader animate-spin"
-										: "i-tabler-player-play-filled"
-								}
-								disabled={isDbLoading}
-								onClick={handleClickExecute}
-							>
-								{isDbLoading ? "DBを準備中" : "実行"}
-							</Button>
+							<TooltipProvider>
+								<Tooltip
+									trigger={
+										<Button
+											color="secondary"
+											leftIconClass="i-tabler-chevron-left"
+											disabled={isFirstProblem}
+											onClick={prevProblem}
+										>
+											前の問題
+										</Button>
+									}
+								>
+									{prevCommandKbd}
+								</Tooltip>
+								<Tooltip
+									trigger={
+										<Button
+											color="secondary"
+											rightIconClass="i-tabler-chevron-right"
+											disabled={isLastProblem}
+											onClick={nextProblem}
+										>
+											次の問題
+										</Button>
+									}
+								>
+									{nextCommandKbd}
+								</Tooltip>
+								<Tooltip
+									trigger={
+										<Button
+											leftIconClass={
+												isDbLoading
+													? "i-tabler-loader animate-spin"
+													: "i-tabler-player-play-filled"
+											}
+											disabled={isDbLoading}
+											onClick={handleClickRun}
+										>
+											{isDbLoading ? "DBを準備中" : "実行"}
+										</Button>
+									}
+								>
+									{runCommandKbd}
+								</Tooltip>
+							</TooltipProvider>
 						</div>
 					</PanelFooter>
 				</Panel>
@@ -214,14 +274,12 @@ export default function ProblemSetPlay() {
 					</div>
 					<div className="flex items-center gap-2">
 						<TooltipProvider>
-							<Tooltip
-								label="問題一覧を表示する"
-								trigger={<IconButton iconClass="i-tabler-list" />}
-							/>
-							<Tooltip
-								label="問題セットをインポートする"
-								trigger={<IconButton iconClass="i-tabler-download" />}
-							/>
+							<Tooltip trigger={<IconButton iconClass="i-tabler-list" />}>
+								問題一覧を表示する
+							</Tooltip>
+							<Tooltip trigger={<IconButton iconClass="i-tabler-download" />}>
+								問題セットをインポートする
+							</Tooltip>
 						</TooltipProvider>
 						<Button color="secondary" leftIconClass="i-tabler-x">
 							終了

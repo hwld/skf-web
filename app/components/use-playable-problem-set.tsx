@@ -1,3 +1,4 @@
+import type { Results } from "@electric-sql/pglite";
 import { useState } from "react";
 import { allProblemMap } from "~/data/all-problems";
 import { shuffle } from "~/lib/shuffle";
@@ -17,7 +18,7 @@ export type PlayableProblem = Problem &
 				/**
 				 * SQLの実行結果
 				 */
-				resultCsv: string;
+				result: Results<string[]>;
 		  }
 	);
 
@@ -62,7 +63,7 @@ export function usePlayableProblemSet(params: URLSearchParams) {
 	function changeProblemStatus(
 		problemId: string,
 		status: "success" | "error",
-		resultCsv: string,
+		result: Results<string[]>,
 	) {
 		setPlayableProblemSet((prev) => {
 			const problemResults = prev.playableProblems.map((problem) => {
@@ -73,7 +74,7 @@ export function usePlayableProblemSet(params: URLSearchParams) {
 				return {
 					...problem,
 					status,
-					resultCsv,
+					result,
 				};
 			});
 

@@ -3,6 +3,7 @@ import type { editor } from "monaco-editor";
 import { useRef } from "react";
 import { useSearchParams } from "react-router";
 import { Button } from "~/components/button";
+import { useDb } from "~/components/db-provider";
 import { IconButton } from "~/components/icon-button";
 import {
 	Panel,
@@ -40,9 +41,28 @@ export default function ProblemSetPlay() {
 		isLastProblem,
 		prevProblem,
 		progressRate,
+		changeProblemStatus,
 	} = usePlayableProblemSet(params);
-
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+
+	const db = useDb();
+	const isDbLoading = db === undefined;
+
+	async function handleClickExecute() {
+		const sql = editorRef.current?.getValue();
+		if (!sql || !db) {
+			return;
+		}
+
+		// TODO:
+		const result = await db.query<string[]>(sql, [], { rowMode: "array" });
+
+		// TODO: 省略してることを表現できると良いかも
+		changeProblemStatus(currentProblem.id, "success", {
+			...result,
+			rows: result.rows.slice(0, 100),
+		});
+	}
 
 	return (
 		<div className="grid grid-cols-[1fr_auto] gap-4 min-h-0">
@@ -73,12 +93,15 @@ export default function ProblemSetPlay() {
 								次の問題
 							</Button>
 							<Button
-								leftIconClass="i-tabler-player-play-filled"
-								onClick={() => {
-									console.log(editorRef.current?.getValue());
-								}}
+								leftIconClass={
+									isDbLoading
+										? "i-tabler-loader animate-spin"
+										: "i-tabler-player-play-filled"
+								}
+								disabled={isDbLoading}
+								onClick={handleClickExecute}
 							>
-								実行
+								{isDbLoading ? "DBを準備中" : "実行"}
 							</Button>
 						</div>
 					</PanelFooter>
@@ -88,7 +111,40 @@ export default function ProblemSetPlay() {
 					<PanelHeader>
 						<PanelTitle iconClass="i-tabler-prompt" title="Result" />
 					</PanelHeader>
-					<PanelBody>実行結果</PanelBody>
+					<PanelBody>
+						<div className="flex flex-col gap-2">
+							{currentProblem.status !== "idle" ? (
+								<>
+									<p className="text-base-300 text-xs">実行結果</p>
+									<Table>
+										<TableHead>
+											<TableRow>
+												{currentProblem.result.fields.map((f) => {
+													return (
+														<TableHeader key={f.name}>{f.name}</TableHeader>
+													);
+												})}
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											{currentProblem.result.rows.map((row, i) => {
+												return (
+													// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+													<TableRow key={`${i}-${i}`}>
+														{row.map((v, i) => {
+															return (
+																<TableData key={`${i}-${v}`}>{v}</TableData>
+															);
+														})}
+													</TableRow>
+												);
+											})}
+										</TableBody>
+									</Table>
+								</>
+							) : null}
+						</div>
+					</PanelBody>
 				</Panel>
 			</div>
 			<div className="grid grid-rows-[auto_270px_1fr] gap-4 w-[600px] min-h-0">

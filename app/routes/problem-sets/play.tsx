@@ -1,14 +1,28 @@
 import { Separator, Tabs } from "@base-ui-components/react";
-import clsx from "clsx";
-import type { PropsWithChildren } from "react";
 import { useSearchParams } from "react-router";
 import { Button } from "~/components/button";
 import { IconButton } from "~/components/icon-button";
 import { ProblemStatusBadge } from "~/components/problem-status-badge";
 import { Tooltip, TooltipProvider } from "~/components/tooltip";
 import { usePlayableProblemSet } from "~/components/use-playable-problem-set";
-import { Progress } from "@base-ui-components/react";
-import React from "react";
+import {
+	Panel,
+	PanelBody,
+	PanelFooter,
+	PanelHeader,
+	PanelTitle,
+	TabPanelIndicator,
+	TabPanelTitle,
+} from "~/components/panel";
+import { ProgressBar } from "~/components/progress-bar";
+import {
+	Table,
+	TableBody,
+	TableData,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "~/components/table";
 
 const expectedTitle = "Expected";
 const sqlSolutionTitle = "SQL Solution";
@@ -140,19 +154,24 @@ export default function ProblemSetPlay() {
 												? ` ${index + 1}`
 												: ""}
 										</p>
-										<div className="grid grid-cols-[auto_auto] w-fit border rounded-sm border-base-500">
-											<Cell value="列名" header />
-											<Cell value="最初の行の値" header columnEnd />
-											{paris.map(({ column, value }, index) => {
-												const isRowEnd = index === firstRows.length - 1;
-												return (
-													<React.Fragment key={`${column}-${value}`}>
-														<Cell value={column} rowEnd={isRowEnd} />
-														<Cell value={value} rowEnd={isRowEnd} columnEnd />
-													</React.Fragment>
-												);
-											})}
-										</div>
+										<Table>
+											<TableHead>
+												<TableRow>
+													<TableHeader>列名</TableHeader>
+													<TableHeader>最初の行の値</TableHeader>
+												</TableRow>
+											</TableHead>
+											<TableBody>
+												{paris.map(({ column, value }) => {
+													return (
+														<TableRow key={`${column}-${value}`}>
+															<TableData>{column}</TableData>
+															<TableData>{value}</TableData>
+														</TableRow>
+													);
+												})}
+											</TableBody>
+										</Table>
 									</div>
 								);
 							})}
@@ -177,113 +196,5 @@ export default function ProblemSetPlay() {
 				</Tabs.Root>
 			</div>
 		</div>
-	);
-}
-
-function Cell({
-	value,
-	className,
-	header,
-	rowEnd,
-	columnEnd,
-}: {
-	value: string;
-	className?: string;
-	header?: boolean;
-	rowEnd?: boolean;
-	columnEnd?: boolean;
-}) {
-	return (
-		<div
-			className={clsx(
-				className,
-				"px-2 py-1 border-base-500",
-				header ? "bg-white/10" : "",
-				rowEnd ? "" : "border-b",
-				columnEnd ? "" : "border-r",
-			)}
-		>
-			{value}
-		</div>
-	);
-}
-
-type ProgressBarProps = { value: number };
-function ProgressBar({ value }: ProgressBarProps) {
-	return (
-		<Progress.Root value={value}>
-			<Progress.Track className="h-1 bg-base-600 rounded-xl overflow-hidden">
-				<Progress.Indicator className="block bg-primary-400" />
-			</Progress.Track>
-		</Progress.Root>
-	);
-}
-
-function Panel({ children, ...others }: PropsWithChildren) {
-	return (
-		<div
-			className="w-full h-full flex flex-col border border-base-700 rounded-lg overflow-hidden"
-			{...others}
-		>
-			{children}
-		</div>
-	);
-}
-
-function PanelHeader({ children, ...others }: PropsWithChildren) {
-	return (
-		<div
-			className="h-9 bg-base-700 w-full flex items-center px-2 gap-2 shrink-0"
-			{...others}
-		>
-			{children}
-		</div>
-	);
-}
-
-function PanelBody({ children, ...props }: PropsWithChildren) {
-	return (
-		<div {...props} className="bg-base-800 p-4 grow overflow-auto">
-			{children}
-		</div>
-	);
-}
-
-function PanelFooter({ children }: PropsWithChildren) {
-	return (
-		<div className="bg-base-700 p-2 flex items-center justify-end">
-			{children}
-		</div>
-	);
-}
-
-type PanelTitleProps = { iconClass: string; title: string };
-
-function PanelTitle({ iconClass, title }: PanelTitleProps) {
-	return (
-		<div className="grid grid-cols-[auto_1fr] gap-1 items-center text-base-100">
-			<span className={clsx(iconClass, "size-5")} />
-			<p>{title}</p>
-		</div>
-	);
-}
-
-type TabPanelTitleProps = { iconClass: string; title: string };
-
-function TabPanelTitle({ iconClass, title }: TabPanelTitleProps) {
-	return (
-		<Tabs.Tab
-			className="grid grid-cols-[auto_1fr] gap-1 items-center h-7 px-2 rounded-sm transition duration-100 data-[selected]:text-base-100 text-base-400 hover:text-base-100 hover:bg-white/15"
-			value={title}
-		>
-			<span className={clsx(iconClass, "size-5")} />
-			<p>{title}</p>
-		</Tabs.Tab>
-	);
-}
-
-function TabPanelIndicator() {
-	return (
-		<Tabs.Indicator className="absolute h-px bottom-[calc(var(--active-tab-bottom)-1px)] rounded-sm w-(--active-tab-width) translate-x-(--active-tab-left) bg-base-100 transition duration-200 ease-in-out" />
 	);
 }

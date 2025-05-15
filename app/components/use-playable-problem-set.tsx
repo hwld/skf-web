@@ -9,16 +9,19 @@ import {
 } from "~/models/problem";
 import { playProblemSetParamName } from "~/routes/paths";
 
+type PlayableProblemResult = Results<string[]> & { isTruncated: boolean };
+
 export type PlayableProblem = Problem &
 	(
 		| { status: "idle" }
+		| { status: "error"; message: string }
 		| {
-				status: "success" | "error";
+				status: "right" | "wrong";
 
 				/**
 				 * SQLの実行結果
 				 */
-				result: Results<string[]>;
+				result: PlayableProblemResult;
 		  }
 	);
 
@@ -59,24 +62,41 @@ export function usePlayableProblemSet(params: URLSearchParams) {
 
 		setCurrentProblemIndex((index) => index - 1);
 	}
+	function setErrorResult(problemId: string, message: string) {
+		setPlayableProblemSet((prev) => {
+			const playableProblems = prev.playableProblems.map(
+				(problem): PlayableProblem => {
+					if (problem.id !== problemId) {
+						return problem;
+					}
+
+					return { ...problem, status: "error", message };
+				},
+			);
+
+			return { ...prev, playableProblems };
+		});
+	}
 
 	function changeProblemStatus(
 		problemId: string,
-		status: "success" | "error",
-		result: Results<string[]>,
+		status: "right" | "wrong",
+		result: PlayableProblemResult,
 	) {
 		setPlayableProblemSet((prev) => {
-			const problemResults = prev.playableProblems.map((problem) => {
-				if (problem.id !== problemId) {
-					return problem;
-				}
+			const problemResults = prev.playableProblems.map(
+				(problem): PlayableProblem => {
+					if (problem.id !== problemId) {
+						return problem;
+					}
 
-				return {
-					...problem,
-					status,
-					result,
-				};
-			});
+					return {
+						...problem,
+						status,
+						result,
+					};
+				},
+			);
 
 			return { ...prev, playableProblems: problemResults };
 		});
@@ -90,6 +110,7 @@ export function usePlayableProblemSet(params: URLSearchParams) {
 		nextProblem,
 		prevProblem,
 		changeProblemStatus,
+		setErrorResult,
 		progressRate,
 	};
 }

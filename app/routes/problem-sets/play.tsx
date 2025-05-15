@@ -1,10 +1,9 @@
 import { Separator, Tabs } from "@base-ui-components/react";
+import type { editor } from "monaco-editor";
+import { useRef } from "react";
 import { useSearchParams } from "react-router";
 import { Button } from "~/components/button";
 import { IconButton } from "~/components/icon-button";
-import { ProblemStatusBadge } from "~/components/problem-status-badge";
-import { Tooltip, TooltipProvider } from "~/components/tooltip";
-import { usePlayableProblemSet } from "~/components/use-playable-problem-set";
 import {
 	Panel,
 	PanelBody,
@@ -14,7 +13,9 @@ import {
 	TabPanelIndicator,
 	TabPanelTitle,
 } from "~/components/panel";
+import { ProblemStatusBadge } from "~/components/problem-status-badge";
 import { ProgressBar } from "~/components/progress-bar";
+import { SqlEditor } from "~/components/sql-editor";
 import {
 	Table,
 	TableBody,
@@ -23,6 +24,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "~/components/table";
+import { Tooltip, TooltipProvider } from "~/components/tooltip";
+import { usePlayableProblemSet } from "~/components/use-playable-problem-set";
 
 const expectedTitle = "Expected";
 const sqlSolutionTitle = "SQL Solution";
@@ -39,6 +42,8 @@ export default function ProblemSetPlay() {
 		progressRate,
 	} = usePlayableProblemSet(params);
 
+	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+
 	return (
 		<div className="grid grid-cols-[1fr_auto] gap-4 min-h-0">
 			<div className="grid grid-rows-[1fr_320px] gap-4">
@@ -46,7 +51,9 @@ export default function ProblemSetPlay() {
 					<PanelHeader>
 						<PanelTitle iconClass="i-tabler-code" title="SQL editor" />
 					</PanelHeader>
-					<PanelBody>Code</PanelBody>
+					<PanelBody noPadding>
+						<SqlEditor ref={editorRef} problem={currentProblem} />
+					</PanelBody>
 					<PanelFooter>
 						<div className="flex items-center gap-2">
 							<Button
@@ -65,7 +72,14 @@ export default function ProblemSetPlay() {
 							>
 								次の問題
 							</Button>
-							<Button leftIconClass="i-tabler-player-play-filled">実行</Button>
+							<Button
+								leftIconClass="i-tabler-player-play-filled"
+								onClick={() => {
+									console.log(editorRef.current?.getValue());
+								}}
+							>
+								実行
+							</Button>
 						</div>
 					</PanelFooter>
 				</Panel>

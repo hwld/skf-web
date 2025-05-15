@@ -1,6 +1,6 @@
 import { Tabs } from "@base-ui-components/react";
 import clsx from "clsx";
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 
 export function Panel({ children, ...others }: PropsWithChildren) {
 	return (
@@ -24,9 +24,16 @@ export function PanelHeader({ children, ...others }: PropsWithChildren) {
 	);
 }
 
-export function PanelBody({ children, ...props }: PropsWithChildren) {
+export function PanelBody({
+	children,
+	noPadding,
+	...props
+}: { children?: ReactNode; noPadding?: boolean }) {
 	return (
-		<div {...props} className="bg-base-800 p-4 grow overflow-auto">
+		<div
+			{...props}
+			className={clsx("bg-base-800 grow overflow-auto", noPadding ? "" : "p-4")}
+		>
 			{children}
 		</div>
 	);

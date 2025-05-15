@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { NavLink } from "react-router";
 import PageTitle from "~/components/page-title";
+import { Tooltip, TooltipProvider } from "~/components/tooltip";
 import { buildInProblemSet } from "~/data/build-in-problem-set";
 import type { ProblemSet } from "~/models/problem";
 import { Paths } from "./paths";
-import { Tooltip, TooltipProvider } from "~/components/tooltip";
 
 export function meta() {
 	return [{ title: "skf-web" }, { name: "description", content: "skf-web" }];

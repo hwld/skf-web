@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { tv, type VariantProps } from "tailwind-variants";
+import { type VariantProps, tv } from "tailwind-variants";
 
 const button = tv({
 	slots: {

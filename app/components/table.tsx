@@ -31,9 +31,15 @@ export function TableHeader({ children }: { children?: React.ReactNode }) {
 	);
 }
 
-export function TableData({ children }: { children?: React.ReactNode }) {
+export function TableData({
+	children,
+	colSpan,
+}: { children?: React.ReactNode; colSpan?: number }) {
 	return (
-		<td className="px-2 py-1 border-base-500 text-start font-normal not-last:border-r">
+		<td
+			className="px-2 py-1 border-base-500 text-start font-normal not-last:border-r"
+			colSpan={colSpan}
+		>
 			{children}
 		</td>
 	);

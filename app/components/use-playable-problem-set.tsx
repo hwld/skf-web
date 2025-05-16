@@ -22,6 +22,11 @@ export type PlayableProblem = Problem &
          * SQLの実行結果
          */
         result: PlayableProblemResult;
+
+        /**
+         * 解答の実行結果
+         */
+        solutionResults: PlayableProblemResult[];
       }
   );
 
@@ -44,7 +49,7 @@ export type UsePlayableProblemSet = {
   changeProblemStatus: (
     id: string,
     state: "right" | "wrong",
-    result: PlayableProblemResult,
+    result: { user: PlayableProblemResult; solutions: PlayableProblemResult[] },
   ) => void;
   setErrorResult: (id: string, message: string) => void;
 };
@@ -103,7 +108,10 @@ export function usePlayableProblemSet(
   function changeProblemStatus(
     problemId: string,
     status: "right" | "wrong",
-    result: PlayableProblemResult,
+    result: {
+      user: PlayableProblemResult;
+      solutions: PlayableProblemResult[];
+    },
   ) {
     setPlayableProblemSet((prev) => {
       const problemResults = prev.playableProblems.map(
@@ -115,7 +123,8 @@ export function usePlayableProblemSet(
           return {
             ...problem,
             status,
-            result,
+            result: result.user,
+            solutionResults: result.solutions,
           };
         },
       );

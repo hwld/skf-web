@@ -69,6 +69,7 @@ export function SqlEditorPanel({
   const db = useDb();
   const isDbLoading = db === undefined;
 
+  // TODO:
   async function handleClickRun() {
     const sql = editorRef.current?.getValue();
     if (!sql || !db) {
@@ -78,27 +79,49 @@ export function SqlEditorPanel({
     // COMMITを入力されると意味ないんだけど、ミスをできるだけ減らすためにユーザーの操作をトランザクションで囲んで必ずロールバックする
     await db.transaction(async (tx) => {
       try {
-        const lastResult = (await tx.exec(sql, { rowMode: "array" })).at(-1);
-        if (!lastResult) {
+        const userResult = (await tx.exec(sql, { rowMode: "array" })).at(-1) as
+          | Results<string[]>
+          | undefined;
+        if (!userResult) {
           return;
         }
 
-        const isRight = navigator.currentProblem.solutions
-          .map((solution) => {
-            return isProblemResultEqual(
-              lastResult as Results<string[]>,
-              solution.expectedResult,
-            );
-          })
-          .some(Boolean);
+        const solutionResults = await Promise.all(
+          navigator.currentProblem.solutions
+            .map(async (s) => {
+              return (await tx.exec(s.sql, { rowMode: "array" })).at(-1) as
+                | Results<string[]>
+                | undefined;
+            })
+            .filter(
+              (result): result is Promise<Results<string[]>> =>
+                result !== undefined,
+            ),
+        );
+
+        console.log("user:", userResult);
+        console.log("solution:", solutionResults);
+
+        const isRight = solutionResults.some((solutionResult) => {
+          return isProblemResultEqual(
+            userResult as Results<string[]>,
+            solutionResult as Results<string[]>,
+          );
+        });
 
         onChangeProblemStatus(
           navigator.currentProblem.id,
           isRight ? "right" : "wrong",
           {
-            ...lastResult,
-            rows: lastResult.rows.slice(0, 100) as string[][],
-            isTruncated: lastResult.rows.length > 100,
+            user: {
+              ...userResult,
+              rows: userResult.rows.slice(0, 100),
+              isTruncated: userResult.rows.length > 100,
+            },
+            solutions: solutionResults.map((s) => ({
+              ...s,
+              isTruncated: false,
+            })),
           },
         );
       } catch (e) {

@@ -131,25 +131,39 @@ function ResultTabPanelBody({ problem }: { problem: PlayableProblem }) {
 }
 
 function ExpectedTabPanelBody({ problem }: { problem: PlayableProblem }) {
-  return (
-    <Tabs.Panel render={PanelBody} value={expectedTitle}>
-      <div className="flex flex-col gap-6">
-        {problem.solutions.map((solution, i) => {
+  const resultContent = useMemo(() => {
+    switch (problem.status) {
+      case "idle": {
+        return (
+          <p className="text-base-300">
+            SQLを実行すると、ここに期待する結果が表示されます
+          </p>
+        );
+      }
+      case "error": {
+        return <p className="text-red-400">エラーが発生しています</p>;
+      }
+      case "right":
+      case "wrong": {
+        return problem.solutionResults.map((result, i) => {
           return (
-            <div key={solution.sql} className="flex flex-col gap-2">
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            <div key={i} className="flex flex-col gap-2">
               <p className="text-base-300 text-xs">
                 {`期待する結果${problem.solutions.length > 1 ? i + 1 : ""} (列名と順序はSampleと一致している必要がある)`}
               </p>
               <Table>
                 <TableHead>
                   <TableRow>
-                    {solution.expectedResult.fields.map((field) => {
-                      return <TableHeader key={field}>{field}</TableHeader>;
+                    {result.fields.map((field) => {
+                      return (
+                        <TableHeader key={field.name}>{field.name}</TableHeader>
+                      );
                     })}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {solution.expectedResult.rows.map((row, i) => {
+                  {result.rows.map((row, i) => {
                     return (
                       // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                       <TableRow key={i}>
@@ -163,8 +177,17 @@ function ExpectedTabPanelBody({ problem }: { problem: PlayableProblem }) {
               </Table>
             </div>
           );
-        })}
-      </div>
+        });
+      }
+      default: {
+        throw new Error(problem satisfies never);
+      }
+    }
+  }, [problem]);
+
+  return (
+    <Tabs.Panel render={PanelBody} value={expectedTitle}>
+      <div className="flex flex-col gap-6">{resultContent}</div>
     </Tabs.Panel>
   );
 }

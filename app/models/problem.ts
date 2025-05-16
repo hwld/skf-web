@@ -39,11 +39,11 @@ export type ProblemSet = z.infer<typeof ProblemSetSchema>;
 
 export function isProblemResultEqual(
   actual: Results<string[]>,
-  expected: { fields: string[]; rows: string[][] },
+  expected: Results<string[]>,
 ) {
   if (
     actual.fields.length !== expected.fields.length ||
-    !actual.fields.every((f, i) => f.name === expected.fields[i])
+    !actual.fields.every((f, i) => f.name === expected.fields[i].name)
   ) {
     return false;
   }

@@ -443,7 +443,7 @@ export default function ProblemSetPlay() {
               {currentProblem.solutions.map((solution, index) => (
                 <div key={solution.sql} className="flex flex-col gap-2">
                   <p className="text-base-300 text-xs">回答例{index + 1}</p>
-                  <div className="border border-base-600 p-2 rounded-md [&_.shiki]:bg-transparent! [&_*]:text-xs!">
+                  <div className="border border-base-600 p-2 rounded-md [&_.shiki]:bg-transparent! [&_*]:text-xs! [&_code]:whitespace-pre-wrap">
                     <div
                       // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
                       dangerouslySetInnerHTML={{ __html: solution.sqlHtml }}

@@ -215,13 +215,13 @@ export default function ProblemSetPlay() {
   }, [currentProblem]);
 
   return (
-    <div className="grid grid-cols-[1fr_auto] gap-4 min-h-0">
-      <div className="grid grid-rows-[1fr_320px] gap-4">
+    <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 min-h-0">
+      <div className="grid grid-rows-[minmax(0,1fr)_320px] gap-4">
         <Panel>
           <PanelHeader>
             <PanelTitle iconClass="i-tabler-code" title="SQL editor" />
           </PanelHeader>
-          <PanelBody noPadding>
+          <PanelBody noPadding noOverflow>
             <SqlEditor
               ref={editorRef}
               problem={currentProblem}
@@ -339,7 +339,7 @@ export default function ProblemSetPlay() {
           </Tabs.Panel>
         </Tabs.Root>
       </div>
-      <div className="grid grid-rows-[auto_270px_1fr] gap-4 w-[600px] min-h-0">
+      <div className="grid grid-rows-[auto_270px_minmax(0,1fr)] gap-4 w-[600px] min-h-0">
         <div className="bg-base-800 border border-base-700 rounded-lg pl-4 pt-4 pr-3 pb-3 items-end grid grid-cols-[1fr_auto] gap-4">
           <div className="flex flex-col gap-2">
             <p className="text-xs">{playableProblemSet.title}</p>

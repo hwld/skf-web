@@ -5,8 +5,9 @@ import type { PropsWithChildren, ReactNode } from "react";
 export function Panel({ children, ...others }: PropsWithChildren) {
   return (
     <div
-      className="w-full h-full flex flex-col border border-base-700 rounded-lg overflow-hidden"
       {...others}
+      className="w-full h-full flex flex-col border border-base-700 rounded-(--rounded) min-w-0"
+      style={{ ["--rounded" as string]: "8px" }}
     >
       {children}
     </div>
@@ -16,8 +17,8 @@ export function Panel({ children, ...others }: PropsWithChildren) {
 export function PanelHeader({ children, ...others }: PropsWithChildren) {
   return (
     <div
-      className="h-9 bg-base-700 w-full flex items-center px-2 gap-2 shrink-0"
       {...others}
+      className="h-9 bg-base-700 w-full flex items-center px-2 gap-2 shrink-0 rounded-t-(--rounded)"
     >
       {children}
     </div>
@@ -27,12 +28,17 @@ export function PanelHeader({ children, ...others }: PropsWithChildren) {
 export function PanelBody({
   children,
   noPadding,
+  noOverflow,
   ...props
-}: { children?: ReactNode; noPadding?: boolean }) {
+}: { children?: ReactNode; noPadding?: boolean; noOverflow?: boolean }) {
   return (
     <div
       {...props}
-      className={clsx("bg-base-800 grow overflow-auto", noPadding ? "" : "p-4")}
+      className={clsx(
+        "bg-base-800 grow peer-[.footer]:rounded-b-none rounded-b-(--rounded)",
+        noPadding ? "" : "p-4",
+        noOverflow ? "" : "overflow-auto",
+      )}
     >
       {children}
     </div>
@@ -41,7 +47,7 @@ export function PanelBody({
 
 export function PanelFooter({ children }: PropsWithChildren) {
   return (
-    <div className="bg-base-700 p-2 flex items-center justify-end">
+    <div className="bg-base-700 p-2 flex items-center justify-end rounded-b-(--rounded) footer">
       {children}
     </div>
   );

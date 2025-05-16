@@ -4,7 +4,10 @@ export type Problem = {
   id: string;
   title: string;
   description: string;
-  solutions: { sql: string; expectedCsv: string }[];
+  solutions: {
+    sql: string;
+    expectedResult: { fields: string[]; rows: string[][] };
+  }[];
 };
 
 export const BuildInProblemSetSchema = z.object({

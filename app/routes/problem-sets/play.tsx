@@ -29,8 +29,11 @@ import {
 import { Tooltip, TooltipProvider } from "~/components/tooltip";
 import { usePlayableProblemSet } from "~/components/use-playable-problem-set";
 
-const expectedTitle = "Expected";
+const sampleTitle = "Sample";
 const sqlSolutionTitle = "SQL Solution";
+
+const resultTitle = "Result";
+const expectedTitle = "Expected";
 
 export default function ProblemSetPlay() {
   const params = useSearchParams()[0];
@@ -251,14 +254,61 @@ export default function ProblemSetPlay() {
           </PanelFooter>
         </Panel>
 
-        <Panel>
+        <Tabs.Root render={Panel} defaultValue={resultTitle}>
           <PanelHeader>
-            <PanelTitle iconClass="i-tabler-prompt" title="Result" />
+            <Tabs.List className="flex gap-2 h-full items-center relative">
+              <TabPanelTitle iconClass="i-tabler-prompt" title={resultTitle} />
+              <Separator
+                orientation="vertical"
+                className="w-px bg-base-500 h-2/3"
+              />
+              <TabPanelTitle
+                iconClass="i-tabler-database"
+                title={expectedTitle}
+              />
+              <TabPanelIndicator />
+            </Tabs.List>
           </PanelHeader>
-          <PanelBody>
+          <Tabs.Panel render={PanelBody} value={resultTitle}>
             <div className="flex flex-col gap-2 w-fit">{resultContent}</div>
-          </PanelBody>
-        </Panel>
+          </Tabs.Panel>
+          <Tabs.Panel render={PanelBody} value={expectedTitle}>
+            <div className="flex flex-col gap-6">
+              {currentProblem.solutions.map((solution) => {
+                return (
+                  <div key={solution.sql} className="flex flex-col gap-2">
+                    <p className="text-base-300 text-xs">期待する結果</p>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          {solution.expectedResult.fields.map((field) => {
+                            return (
+                              <TableHeader key={field}>{field}</TableHeader>
+                            );
+                          })}
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {solution.expectedResult.rows.map((row, i) => {
+                          return (
+                            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                            <TableRow key={i}>
+                              {row.map((v, i) => {
+                                return (
+                                  <TableData key={`${i}-${v}`}>{v}</TableData>
+                                );
+                              })}
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </div>
+                );
+              })}
+            </div>
+          </Tabs.Panel>
+        </Tabs.Root>
       </div>
       <div className="grid grid-rows-[auto_270px_1fr] gap-4 w-[600px] min-h-0">
         <div className="bg-base-800 border border-base-700 rounded-lg pl-4 pt-4 pr-3 pb-3 items-end grid grid-cols-[1fr_auto] gap-4">
@@ -298,12 +348,12 @@ export default function ProblemSetPlay() {
           </PanelBody>
         </Panel>
 
-        <Tabs.Root render={Panel} defaultValue={expectedTitle}>
+        <Tabs.Root render={Panel} defaultValue={sampleTitle}>
           <PanelHeader>
             <Tabs.List className="flex gap-2 h-full items-center relative">
               <TabPanelTitle
-                iconClass="i-tabler-database"
-                title={expectedTitle}
+                iconClass="i-tabler-test-pipe"
+                title={sampleTitle}
               />
               <Separator
                 orientation="vertical"
@@ -316,12 +366,11 @@ export default function ProblemSetPlay() {
               <TabPanelIndicator />
             </Tabs.List>
           </PanelHeader>
-          <Tabs.Panel render={PanelBody} value={expectedTitle}>
+          <Tabs.Panel render={PanelBody} value={sampleTitle}>
             <div className="flex flex-col gap-6">
               {currentProblem.solutions.map((solution, index) => {
-                const lines = solution.expectedCsv.split("\n");
-                const columnNames = lines[0].split(",");
-                const firstRows = lines[1].split(",");
+                const columnNames = solution.expectedResult.fields;
+                const firstRows = solution.expectedResult.rows[0];
                 const paris = columnNames.map((column, index) => ({
                   column,
                   value: firstRows[index],

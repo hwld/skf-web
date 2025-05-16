@@ -274,10 +274,12 @@ export default function ProblemSetPlay() {
           </Tabs.Panel>
           <Tabs.Panel render={PanelBody} value={expectedTitle}>
             <div className="flex flex-col gap-6">
-              {currentProblem.solutions.map((solution) => {
+              {currentProblem.solutions.map((solution, i) => {
                 return (
                   <div key={solution.sql} className="flex flex-col gap-2">
-                    <p className="text-base-300 text-xs">期待する結果</p>
+                    <p className="text-base-300 text-xs">
+                      {`期待する結果${currentProblem.solutions.length > 1 ? i + 1 : ""} (列名と順序はSampleと一致している必要がある)`}
+                    </p>
                     <Table>
                       <TableHead>
                         <TableRow>
@@ -387,14 +389,16 @@ export default function ProblemSetPlay() {
                     <Table>
                       <TableHead>
                         <TableRow>
+                          <TableHeader>順序</TableHeader>
                           <TableHeader>列名</TableHeader>
                           <TableHeader>最初の行の値</TableHeader>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {paris.map(({ column, value }) => {
+                        {paris.map(({ column, value }, order) => {
                           return (
                             <TableRow key={`${column}-${value}`}>
+                              <TableData>{order + 1}</TableData>
                               <TableData>{column}</TableData>
                               <TableData>{value}</TableData>
                             </TableRow>

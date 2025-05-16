@@ -15,13 +15,21 @@ const button = tv({
   defaultVariants: { size: "md" },
 });
 
-type Props = VariantProps<typeof button> & { iconClass: string };
+type Props = VariantProps<typeof button> & {
+  iconClass: string;
+  onClick?: () => void;
+};
 
-export function IconButton({ size, iconClass, ...props }: Props) {
+export function IconButton({ size, iconClass, onClick, ...props }: Props) {
   const classes = button({ size });
 
   return (
-    <button {...props} type="button" className={classes.base()}>
+    <button
+      {...props}
+      type="button"
+      className={classes.base()}
+      onClick={onClick}
+    >
       <span className={clsx(iconClass, classes.icon())} />
     </button>
   );

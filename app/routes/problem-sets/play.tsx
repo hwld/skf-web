@@ -2,7 +2,7 @@ import { Separator, Tabs } from "@base-ui-components/react";
 import type { Results } from "@electric-sql/pglite";
 import clsx from "clsx";
 import { KeyCode, KeyMod, type editor } from "monaco-editor";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { Button } from "~/components/button";
 import { useDb } from "~/components/db-provider";
@@ -29,7 +29,10 @@ import {
   TableRow,
 } from "~/components/table";
 import { Tooltip, TooltipProvider } from "~/components/tooltip";
-import { usePlayableProblemSet } from "~/components/use-playable-problem-set";
+import {
+  type PlayableProblem,
+  usePlayableProblemSet,
+} from "~/components/use-playable-problem-set";
 import { isProblemResultEqual } from "~/models/problem";
 
 const sampleTitle = "Sample";
@@ -438,23 +441,53 @@ export default function ProblemSetPlay() {
               })}
             </div>
           </Tabs.Panel>
-          <Tabs.Panel render={PanelBody} value={sqlSolutionTitle}>
-            <div className="flex flex-col gap-6">
-              {currentProblem.solutions.map((solution, index) => (
-                <div key={solution.sql} className="flex flex-col gap-2">
-                  <p className="text-base-300 text-xs">回答例{index + 1}</p>
-                  <div className="border border-base-600 p-2 rounded-md [&_.shiki]:bg-transparent! [&_*]:text-xs! [&_code]:whitespace-pre-wrap">
-                    <div
-                      // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-                      dangerouslySetInnerHTML={{ __html: solution.sqlHtml }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Tabs.Panel>
+          <SqlSolutionTabPanelBody problem={currentProblem} />
         </Tabs.Root>
       </div>
     </div>
+  );
+}
+
+function SqlSolutionTabPanelBody({ problem }: { problem: PlayableProblem }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopySql(sql: string) {
+    await navigator.clipboard.writeText(sql);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1000);
+  }
+
+  return (
+    <Tabs.Panel render={PanelBody} value={sqlSolutionTitle}>
+      <div className="flex flex-col gap-6">
+        {problem.solutions.map((solution, index) => (
+          <div key={solution.sql} className="flex flex-col gap-2">
+            <p className="text-base-300 text-xs">回答例{index + 1}</p>
+            <div className="relative border border-base-600 p-2 rounded-md [&_.shiki]:bg-transparent! [&_*]:text-xs! [&_code]:whitespace-pre-wrap group">
+              <div className="absolute right-1 top-1 opacity-0 group-hover:opacity-100 transition duration-100 focus-within:opacity-100">
+                <Tooltip
+                  trigger={
+                    <IconButton
+                      iconClass={
+                        copied
+                          ? "i-tabler-clipboard-check"
+                          : "i-tabler-clipboard"
+                      }
+                      onClick={() => handleCopySql(solution.sql)}
+                    />
+                  }
+                >
+                  コードをコピー
+                </Tooltip>
+              </div>
+              <div
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+                dangerouslySetInnerHTML={{ __html: solution.sqlHtml }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </Tabs.Panel>
   );
 }

@@ -3,145 +3,145 @@ import { useState } from "react";
 import { allProblemMap } from "~/data/all-problems";
 import { shuffle } from "~/lib/shuffle";
 import {
-	type Problem,
-	type ProblemSet,
-	ProblemSetSchema,
+  type Problem,
+  type ProblemSet,
+  ProblemSetSchema,
 } from "~/models/problem";
 import { playProblemSetParamName } from "~/routes/paths";
 
 type PlayableProblemResult = Results<string[]> & { isTruncated: boolean };
 
 export type PlayableProblem = Problem &
-	(
-		| { status: "idle" }
-		| { status: "error"; message: string }
-		| {
-				status: "right" | "wrong";
+  (
+    | { status: "idle" }
+    | { status: "error"; message: string }
+    | {
+        status: "right" | "wrong";
 
-				/**
-				 * SQLの実行結果
-				 */
-				result: PlayableProblemResult;
-		  }
-	);
+        /**
+         * SQLの実行結果
+         */
+        result: PlayableProblemResult;
+      }
+  );
 
 type PlayableProblemSet = Omit<ProblemSet, "problemIds"> & {
-	playableProblems: PlayableProblem[];
+  playableProblems: PlayableProblem[];
 };
 
 export function usePlayableProblemSet(params: URLSearchParams) {
-	const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
-	const [playableProblemSet, setPlayableProblemSet] = useState(
-		initialPlayableProblemSet(params),
-	);
+  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+  const [playableProblemSet, setPlayableProblemSet] = useState(
+    initialPlayableProblemSet(params),
+  );
 
-	const currentProblem =
-		playableProblemSet.playableProblems[currentProblemIndex];
+  const currentProblem =
+    playableProblemSet.playableProblems[currentProblemIndex];
 
-	const progressRate =
-		((currentProblemIndex + 1) / playableProblemSet.playableProblems.length) *
-		100;
+  const progressRate =
+    ((currentProblemIndex + 1) / playableProblemSet.playableProblems.length) *
+    100;
 
-	const isFirstProblem = currentProblemIndex === 0;
+  const isFirstProblem = currentProblemIndex === 0;
 
-	const isLastProblem =
-		currentProblemIndex + 1 >= playableProblemSet.playableProblems.length;
+  const isLastProblem =
+    currentProblemIndex + 1 >= playableProblemSet.playableProblems.length;
 
-	function nextProblem() {
-		if (isLastProblem) {
-			return;
-		}
+  function nextProblem() {
+    if (isLastProblem) {
+      return;
+    }
 
-		setCurrentProblemIndex((index) => index + 1);
-	}
+    setCurrentProblemIndex((index) => index + 1);
+  }
 
-	function prevProblem() {
-		if (isFirstProblem) {
-			return;
-		}
+  function prevProblem() {
+    if (isFirstProblem) {
+      return;
+    }
 
-		setCurrentProblemIndex((index) => index - 1);
-	}
-	function setErrorResult(problemId: string, message: string) {
-		setPlayableProblemSet((prev) => {
-			const playableProblems = prev.playableProblems.map(
-				(problem): PlayableProblem => {
-					if (problem.id !== problemId) {
-						return problem;
-					}
+    setCurrentProblemIndex((index) => index - 1);
+  }
+  function setErrorResult(problemId: string, message: string) {
+    setPlayableProblemSet((prev) => {
+      const playableProblems = prev.playableProblems.map(
+        (problem): PlayableProblem => {
+          if (problem.id !== problemId) {
+            return problem;
+          }
 
-					return { ...problem, status: "error", message };
-				},
-			);
+          return { ...problem, status: "error", message };
+        },
+      );
 
-			return { ...prev, playableProblems };
-		});
-	}
+      return { ...prev, playableProblems };
+    });
+  }
 
-	function changeProblemStatus(
-		problemId: string,
-		status: "right" | "wrong",
-		result: PlayableProblemResult,
-	) {
-		setPlayableProblemSet((prev) => {
-			const problemResults = prev.playableProblems.map(
-				(problem): PlayableProblem => {
-					if (problem.id !== problemId) {
-						return problem;
-					}
+  function changeProblemStatus(
+    problemId: string,
+    status: "right" | "wrong",
+    result: PlayableProblemResult,
+  ) {
+    setPlayableProblemSet((prev) => {
+      const problemResults = prev.playableProblems.map(
+        (problem): PlayableProblem => {
+          if (problem.id !== problemId) {
+            return problem;
+          }
 
-					return {
-						...problem,
-						status,
-						result,
-					};
-				},
-			);
+          return {
+            ...problem,
+            status,
+            result,
+          };
+        },
+      );
 
-			return { ...prev, playableProblems: problemResults };
-		});
-	}
+      return { ...prev, playableProblems: problemResults };
+    });
+  }
 
-	return {
-		playableProblemSet,
-		currentProblem,
-		isFirstProblem,
-		isLastProblem,
-		nextProblem,
-		prevProblem,
-		changeProblemStatus,
-		setErrorResult,
-		progressRate,
-	};
+  return {
+    playableProblemSet,
+    currentProblem,
+    isFirstProblem,
+    isLastProblem,
+    nextProblem,
+    prevProblem,
+    changeProblemStatus,
+    setErrorResult,
+    progressRate,
+  };
 }
 
 function initialPlayableProblemSet(
-	params: URLSearchParams,
+  params: URLSearchParams,
 ): PlayableProblemSet {
-	const rawParams = params.get(playProblemSetParamName);
-	if (!rawParams) {
-		throw new Error("ProblemSet not found");
-	}
+  const rawParams = params.get(playProblemSetParamName);
+  if (!rawParams) {
+    throw new Error("ProblemSet not found");
+  }
 
-	const problemSet = ProblemSetSchema.parse(JSON.parse(rawParams));
-	const problems = problemSet.problemIds.map((id) => {
-		const problem = allProblemMap.get(id);
-		if (!problem) {
-			throw new Error(`Problem not found: ${id}`);
-		}
+  const problemSet = ProblemSetSchema.parse(JSON.parse(rawParams));
+  const problems = problemSet.problemIds.map((id) => {
+    const problem = allProblemMap.get(id);
+    if (!problem) {
+      throw new Error(`Problem not found: ${id}`);
+    }
 
-		return problem;
-	});
+    return problem;
+  });
 
-	return {
-		id: problemSet.id,
-		title: problemSet.title,
-		isBuildIn: problemSet.isBuildIn,
-		playableProblems: shuffle(
-			problems.map((p) => ({
-				...p,
-				status: "idle",
-			})),
-		),
-	};
+  return {
+    id: problemSet.id,
+    title: problemSet.title,
+    isBuildIn: problemSet.isBuildIn,
+    playableProblems: shuffle(
+      problems.map((p) => ({
+        ...p,
+        status: "idle",
+      })),
+    ),
+  };
 }

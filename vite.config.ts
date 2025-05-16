@@ -4,6 +4,6 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-	plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
-	optimizeDeps: { exclude: ["@electric-sql/pglite"] },
+  plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+  optimizeDeps: { exclude: ["@electric-sql/pglite"] },
 });

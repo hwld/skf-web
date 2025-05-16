@@ -1,19 +1,19 @@
 export type Table = {
-	/**
-	 * テーブル名
-	 */
-	name: string;
+  /**
+   * テーブル名
+   */
+  name: string;
 
-	/**
-	 * テーブル定義
-	 */
-	def: string;
+  /**
+   * テーブル定義
+   */
+  def: string;
 };
 
 export const allTables: Table[] = [
-	{
-		name: "customer",
-		def: `
+  {
+    name: "customer",
+    def: `
 DROP TABLE IF EXISTS customer;
 CREATE TABLE customer(
 	customer_id            VARCHAR(14),
@@ -30,10 +30,10 @@ CREATE TABLE customer(
 	PRIMARY KEY (customer_id)
 );
 `,
-	},
-	{
-		name: "category",
-		def: `
+  },
+  {
+    name: "category",
+    def: `
 DROP TABLE IF EXISTS category;
 CREATE TABLE category(
 	category_major_cd     VARCHAR(2),
@@ -45,10 +45,10 @@ CREATE TABLE category(
 	PRIMARY KEY (category_small_cd)
 );
 `,
-	},
-	{
-		name: "product",
-		def: `
+  },
+  {
+    name: "product",
+    def: `
 DROP TABLE IF EXISTS product;
 CREATE TABLE product(
 	product_cd            VARCHAR(10),
@@ -60,10 +60,10 @@ CREATE TABLE product(
 	PRIMARY KEY (product_cd)
 );
 `,
-	},
-	{
-		name: "store",
-		def: `
+  },
+  {
+    name: "store",
+    def: `
 DROP TABLE IF EXISTS store;
 CREATE TABLE store(
 	store_cd      VARCHAR(6),
@@ -79,10 +79,10 @@ CREATE TABLE store(
 	PRIMARY KEY (store_cd)
 );
 `,
-	},
-	{
-		name: "receipt",
-		def: `
+  },
+  {
+    name: "receipt",
+    def: `
 DROP TABLE IF EXISTS receipt;
 CREATE TABLE receipt(
 	sales_ymd       INTEGER,
@@ -97,5 +97,5 @@ CREATE TABLE receipt(
 	PRIMARY KEY (sales_ymd, store_cd, receipt_no, receipt_sub_no)
 );
 `,
-	},
+  },
 ];

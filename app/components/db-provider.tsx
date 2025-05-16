@@ -1,4 +1,4 @@
-import { PGlite } from "@electric-sql/pglite";
+import { PGlite, types } from "@electric-sql/pglite";
 import { type PGliteWithLive, live } from "@electric-sql/pglite/live";
 import {
   type PropsWithChildren,
@@ -29,7 +29,16 @@ export function DbProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     async function setupDb() {
-      dbGlobal ??= await PGlite.create({ extensions: { live } });
+      dbGlobal ??= await PGlite.create({
+        extensions: { live },
+
+        parsers: {
+          [types.INT2]: (value) => value.toString(),
+          [types.INT4]: (value) => value.toString(),
+          [types.NUMERIC]: (value) => value.toString(),
+          [types.DATE]: (value) => new Date(value).toISOString().split("T")[0],
+        },
+      });
 
       await dbGlobal.exec(allTables.map((table) => table.def).join("\n"));
 

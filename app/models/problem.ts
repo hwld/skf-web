@@ -1,3 +1,4 @@
+import type { Results } from "@electric-sql/pglite";
 import z from "zod";
 
 export type Problem = {
@@ -34,3 +35,30 @@ export const ProblemSetSchema = z.union([
 ]);
 
 export type ProblemSet = z.infer<typeof ProblemSetSchema>;
+
+export function isProblemResultEqual(
+  actual: Results<string[]>,
+  expected: { fields: string[]; rows: string[][] },
+) {
+  if (
+    actual.fields.length !== expected.fields.length ||
+    !actual.fields.every((f, i) => f.name === expected.fields[i])
+  ) {
+    return false;
+  }
+
+  if (actual.rows.length !== expected.rows.length) {
+    return false;
+  }
+
+  for (let i = 0; i < actual.rows.length; i++) {
+    const aRow = actual.rows[i];
+    const eRow = expected.rows[i];
+
+    if (aRow.length !== eRow.length || !aRow.every((v, j) => v === eRow[j])) {
+      return false;
+    }
+  }
+
+  return true;
+}

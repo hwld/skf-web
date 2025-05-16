@@ -1,4 +1,6 @@
 import { Separator, Tabs } from "@base-ui-components/react";
+import type { Results } from "@electric-sql/pglite";
+import clsx from "clsx";
 import { KeyCode, KeyMod, type editor } from "monaco-editor";
 import { useMemo, useRef } from "react";
 import { useSearchParams } from "react-router";
@@ -28,6 +30,7 @@ import {
 } from "~/components/table";
 import { Tooltip, TooltipProvider } from "~/components/tooltip";
 import { usePlayableProblemSet } from "~/components/use-playable-problem-set";
+import { isProblemResultEqual } from "~/models/problem";
 
 const sampleTitle = "Sample";
 const sqlSolutionTitle = "SQL Solution";
@@ -102,9 +105,16 @@ export default function ProblemSetPlay() {
           return;
         }
 
-        //TODO: 期待する結果と判定を行う
+        const isRight = currentProblem.solutions
+          .map((solution) => {
+            return isProblemResultEqual(
+              lastResult as Results<string[]>,
+              solution.expectedResult,
+            );
+          })
+          .some(Boolean);
 
-        changeProblemStatus(currentProblem.id, "right", {
+        changeProblemStatus(currentProblem.id, isRight ? "right" : "wrong", {
           ...lastResult,
           rows: lastResult.rows.slice(0, 100) as string[][],
           isTruncated: lastResult.rows.length > 100,
@@ -135,7 +145,24 @@ export default function ProblemSetPlay() {
       case "wrong": {
         return (
           <>
-            <p className="text-base-300 text-xs">実行結果</p>
+            <p
+              className={clsx(
+                "flex items-center gap-1",
+                currentProblem.status === "right"
+                  ? "text-green-400"
+                  : "text-red-400",
+              )}
+            >
+              <span
+                className={clsx(
+                  "size-4",
+                  currentProblem.status === "right"
+                    ? "i-tabler-check"
+                    : "i-tabler-x",
+                )}
+              />
+              {`実行結果 - ${currentProblem.status === "right" ? "正解" : "不正解"}`}
+            </p>
             <Table>
               <TableHead>
                 <TableRow>

@@ -99,9 +99,6 @@ export function SqlEditorPanel({
             ),
         );
 
-        console.log("user:", userResult);
-        console.log("solution:", solutionResults);
-
         const isRight = solutionResults.some((solutionResult) => {
           return isProblemResultEqual(
             userResult as Results<string[]>,

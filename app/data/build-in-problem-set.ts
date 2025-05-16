@@ -8,10 +8,4 @@ export const buildInProblemSet: BuildInProblemSet[] = [
     isBuildIn: true,
     problemIds: allProblems.map((p) => p.id),
   },
-  {
-    id: "2",
-    title: "2問",
-    isBuildIn: true,
-    problemIds: allProblems.slice(0, 4).map((p) => p.id),
-  },
 ];

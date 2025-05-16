@@ -2,7 +2,7 @@ import type { PropsWithChildren } from "react";
 
 export function Kbd({ children }: PropsWithChildren) {
   return (
-    <kbd className="h-6 p-1.5 border border-base-500 rounded-sm flex items-center">
+    <kbd className="px-1.5 py-0.5 text-xs border border-base-500 rounded-sm flex items-center">
       {children}
     </kbd>
   );

@@ -12,7 +12,7 @@ export function Tooltip({ children, trigger }: Props) {
       <BaseTooltip.Trigger render={trigger} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner sideOffset={10}>
-          <BaseTooltip.Popup className="bg-neutral-700 border border-neutral-600 rounded-sm px-3 h-7 flex items-center text-neutral-100 shadow">
+          <BaseTooltip.Popup className="bg-neutral-700 border text-xs border-neutral-600 rounded-sm p-1 flex items-center text-neutral-100 shadow">
             {children}
           </BaseTooltip.Popup>
         </BaseTooltip.Positioner>

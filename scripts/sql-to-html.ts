@@ -4,9 +4,13 @@ import { allProblems } from "~/data/all-problems";
 /**
  * allProblemsのsolutionのsqlをシンタックスハイライト済みのhtmlに変換する
  */
-async function sqlToHtml() {
+async function sqlToHtml(id?: string) {
+  const filteredProblems = id
+    ? allProblems.filter((p) => p.id === id)
+    : allProblems;
+
   const result = await Promise.all(
-    allProblems.map(async (problem) => {
+    filteredProblems.map(async (problem) => {
       return {
         ...problem,
         solutions: await Promise.all(
@@ -24,7 +28,11 @@ async function sqlToHtml() {
     }),
   );
 
-  console.log(JSON.stringify(result));
+  const str = JSON.stringify(result);
+
+  console.log(id !== undefined ? str.slice(1, -1) : str);
 }
 
-sqlToHtml();
+const args = process.argv.slice(2);
+const problemId = args.length > 0 ? args[0] : undefined;
+sqlToHtml(problemId);

@@ -30,7 +30,7 @@ export type PlayableProblem = Problem &
       }
   );
 
-type PlayableProblemSet = Omit<ProblemSet, "problemIds"> & {
+export type PlayableProblemSet = Omit<ProblemSet, "problemIds"> & {
   playableProblems: PlayableProblem[];
 };
 

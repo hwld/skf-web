@@ -29,7 +29,29 @@ type PlayableProblemSet = Omit<ProblemSet, "problemIds"> & {
   playableProblems: PlayableProblem[];
 };
 
-export function usePlayableProblemSet(params: URLSearchParams) {
+export type ProblemNavigator = {
+  currentProblem: PlayableProblem;
+  progressRate: number;
+  isFirstProblem: boolean;
+  isLastProblem: boolean;
+  nextProblem: () => void;
+  prevProblem: () => void;
+};
+
+export type UsePlayableProblemSet = {
+  problemNavigator: ProblemNavigator;
+  playableProblemSet: PlayableProblemSet;
+  changeProblemStatus: (
+    id: string,
+    state: "right" | "wrong",
+    result: PlayableProblemResult,
+  ) => void;
+  setErrorResult: (id: string, message: string) => void;
+};
+
+export function usePlayableProblemSet(
+  params: URLSearchParams,
+): UsePlayableProblemSet {
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const [playableProblemSet, setPlayableProblemSet] = useState(
     initialPlayableProblemSet(params),
@@ -103,15 +125,17 @@ export function usePlayableProblemSet(params: URLSearchParams) {
   }
 
   return {
+    problemNavigator: {
+      currentProblem,
+      progressRate,
+      isFirstProblem,
+      isLastProblem,
+      nextProblem,
+      prevProblem,
+    },
     playableProblemSet,
-    currentProblem,
-    isFirstProblem,
-    isLastProblem,
-    nextProblem,
-    prevProblem,
     changeProblemStatus,
     setErrorResult,
-    progressRate,
   };
 }
 

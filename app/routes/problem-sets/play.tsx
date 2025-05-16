@@ -442,14 +442,13 @@ export default function ProblemSetPlay() {
             <div className="flex flex-col gap-6">
               {currentProblem.solutions.map((solution, index) => (
                 <div key={solution.sql} className="flex flex-col gap-2">
-                  {index > 0 ? (
-                    <Separator
-                      orientation="horizontal"
-                      className="h-px bg-base-500"
-                    />
-                  ) : null}
                   <p className="text-base-300 text-xs">回答例{index + 1}</p>
-                  <p className="whitespace-pre-wrap">{solution.sql}</p>
+                  <div className="border border-base-600 p-2 rounded-md [&_.shiki]:bg-transparent! [&_*]:text-xs!">
+                    <div
+                      // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+                      dangerouslySetInnerHTML={{ __html: solution.sqlHtml }}
+                    />
+                  </div>
                 </div>
               ))}
             </div>

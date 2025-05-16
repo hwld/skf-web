@@ -7,6 +7,7 @@ export type Problem = {
   description: string;
   solutions: {
     sql: string;
+    sqlHtml: string;
     expectedResult: { fields: string[]; rows: string[][] };
   }[];
 };

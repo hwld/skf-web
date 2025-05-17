@@ -1,7 +1,7 @@
 import { type PropsWithChildren, createContext, use } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { buildInProblemSet } from "~/data/build-in-problem-set";
-import type { ProblemSet } from "~/models/problem";
+import type { CustomProblemSet, ProblemSet } from "~/models/problem";
 import type { ProblemSetFormData } from "./problem-set-form";
 
 type ProblemSetContextData = {
@@ -24,7 +24,7 @@ export function useProblemSets() {
 }
 
 export function ProblemSetsProvider(props: PropsWithChildren) {
-  const [value, setValue] = useLocalStorage<ProblemSet[]>("", []);
+  const [value, setValue] = useLocalStorage<CustomProblemSet[]>("", []);
   const allProblemSets = [...buildInProblemSet, ...value];
 
   function addProblemSet(data: ProblemSetFormData) {

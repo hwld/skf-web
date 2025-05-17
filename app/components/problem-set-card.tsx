@@ -30,21 +30,25 @@ export function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
             >
               問題セットを共有する
             </Tooltip>
-            <Tooltip
-              trigger={
-                <ProblemSetCardButtonLink
-                  to={Paths.editProblemSet(problemSet.id)}
-                  iconClass="i-tabler-edit"
-                />
-              }
-            >
-              問題セットを編集する
-            </Tooltip>
-            <Tooltip
-              trigger={<ProblemSetCardButton iconClass="i-tabler-trash" />}
-            >
-              問題セットを削除する
-            </Tooltip>
+            {problemSet.isBuildIn ? null : (
+              <>
+                <Tooltip
+                  trigger={
+                    <ProblemSetCardButtonLink
+                      to={Paths.editProblemSet(problemSet.id)}
+                      iconClass="i-tabler-edit"
+                    />
+                  }
+                >
+                  問題セットを編集する
+                </Tooltip>
+                <Tooltip
+                  trigger={<ProblemSetCardButton iconClass="i-tabler-trash" />}
+                >
+                  問題セットを削除する
+                </Tooltip>
+              </>
+            )}
           </TooltipProvider>
         </div>
       </div>

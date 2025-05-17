@@ -6,10 +6,10 @@ type Props = {
   trigger: JSX.Element;
 };
 
-export function Tooltip({ children, trigger }: Props) {
+export function Tooltip({ children, trigger, ...props }: Props) {
   return (
     <BaseTooltip.Root>
-      <BaseTooltip.Trigger render={trigger} />
+      <BaseTooltip.Trigger render={trigger} {...props} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner sideOffset={10}>
           <BaseTooltip.Popup className="bg-neutral-700 border text-xs border-neutral-600 rounded-sm p-1 flex items-center text-neutral-100 shadow">

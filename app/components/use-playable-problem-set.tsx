@@ -41,6 +41,7 @@ export type ProblemNavigator = {
   isLastProblem: boolean;
   nextProblem: () => void;
   prevProblem: () => void;
+  selectProblem: (id: string) => void;
 };
 
 export type UsePlayableProblemSet = {
@@ -89,6 +90,16 @@ export function usePlayableProblemSet(
 
     setCurrentProblemIndex((index) => index - 1);
   }
+
+  function selectProblem(id: string) {
+    const index = playableProblemSet.playableProblems.findIndex(
+      (problem) => problem.id === id,
+    );
+    if (index !== -1) {
+      setCurrentProblemIndex(index);
+    }
+  }
+
   function setErrorResult(problemId: string, message: string) {
     setPlayableProblemSet((prev) => {
       const playableProblems = prev.playableProblems.map(
@@ -141,6 +152,7 @@ export function usePlayableProblemSet(
       isLastProblem,
       nextProblem,
       prevProblem,
+      selectProblem,
     },
     playableProblemSet,
     changeProblemStatus,

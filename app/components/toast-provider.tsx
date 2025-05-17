@@ -4,13 +4,17 @@ import { Toast } from "@base-ui-components/react";
 import type { PropsWithChildren } from "react";
 
 export function ToastProvider({ children }: PropsWithChildren) {
+  return <Toast.Provider timeout={5000}>{children}</Toast.Provider>;
+}
+
+/**
+ * 重なり順を制御するためにToastProviderから独立させている
+ */
+export function ToastViewPort() {
   return (
-    <Toast.Provider>
-      {children}
-      <Toast.Viewport className="fixed top-auto right-[1rem] bottom-[1rem] mx-auto flex w-[250px] sm:right-[2rem] sm:bottom-[2rem] sm:w-[300px]">
-        <ToastList />
-      </Toast.Viewport>
-    </Toast.Provider>
+    <Toast.Viewport className="fixed top-auto right-[1rem] bottom-[1rem] mx-auto flex w-[250px] sm:right-[2rem] sm:bottom-[2rem] sm:w-[300px]">
+      <ToastList />
+    </Toast.Viewport>
   );
 }
 

@@ -33,9 +33,7 @@ export type ButtonProps = VariantProps<typeof button> & {
   leftIconClass?: string;
   rightIconClass?: string;
   children?: ReactNode;
-  onClick?: () => void;
-  type?: ComponentProps<"button">["type"];
-};
+} & ComponentProps<"button">;
 
 export function Button({
   color,

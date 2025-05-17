@@ -29,10 +29,10 @@ function ToastList() {
             "calc(var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) + var(--toast-swipe-movement-y))",
         }}
       >
-        <div className="flex flex-col gap-3 pt-4 pl-4 pr-2 pb-2">
+        <div className="flex flex-col p-4">
           <Toast.Title className="font-bold" />
           <div className="flex items-center gap-1 w-full justify-end">
-            <Toast.Action className="h-7 rounded-sm border border-base-500 hover:bg-white/15  transition-all duration-150 px-2 grid grid-cols-[auto_1fr] items-center gap-1" />
+            <Toast.Action className="mt-4 h-7 rounded-sm border border-base-500 hover:bg-white/15  transition-all duration-150 px-2 grid grid-cols-[auto_1fr] items-center gap-1" />
           </div>
           <Toast.Close
             className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded border-none bg-transparent text-base-300 hover:bg-white/15 hover:text-base-100"

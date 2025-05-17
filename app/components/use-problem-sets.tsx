@@ -9,6 +9,7 @@ type ProblemSetContextData = {
   addProblemSet: (data: ProblemSetFormData) => void;
   removeProblemSet: (id: string) => void;
   updateProblemSet: (id: string, data: ProblemSetFormData) => void;
+  importProblemSet: (problemSet: ProblemSet) => void;
 };
 
 const ProblemSetsContext = createContext<ProblemSetContextData | undefined>(
@@ -24,11 +25,14 @@ export function useProblemSets() {
 }
 
 export function ProblemSetsProvider(props: PropsWithChildren) {
-  const [value, setValue] = useLocalStorage<CustomProblemSet[]>("", []);
-  const allProblemSets = [...buildInProblemSet, ...value];
+  const [problemSets, setProblemSets] = useLocalStorage<CustomProblemSet[]>(
+    "",
+    [],
+  );
+  const allProblemSets = [...buildInProblemSet, ...problemSets];
 
   function addProblemSet(data: ProblemSetFormData) {
-    setValue((sets) => [
+    setProblemSets((sets) => [
       ...sets,
       {
         id: crypto.randomUUID(),
@@ -40,19 +44,23 @@ export function ProblemSetsProvider(props: PropsWithChildren) {
   }
 
   function removeProblemSet(id: string) {
-    setValue((problemSets) => {
-      const target = problemSets.find((set) => set.id === id);
-      if (target?.isBuildIn) {
-        return problemSets;
-      }
-      return problemSets.filter((s) => s.id !== id);
-    });
+    const target = problemSets.find((set) => set.id === id);
+    if (!target || target?.isBuildIn) {
+      return;
+    }
+
+    setProblemSets((sets) => sets.filter((set) => set.id !== id));
   }
 
   function updateProblemSet(id: string, data: ProblemSetFormData) {
-    setValue((sets) =>
+    const target = problemSets.find((set) => set.id === id);
+    if (!target || target?.isBuildIn) {
+      return;
+    }
+
+    setProblemSets((sets) =>
       sets.map((set) => {
-        if (id !== set.id || set.isBuildIn) {
+        if (id !== set.id) {
           return set;
         }
 
@@ -65,6 +73,19 @@ export function ProblemSetsProvider(props: PropsWithChildren) {
     );
   }
 
+  function importProblemSet(problemSet: ProblemSet) {
+    const exists = problemSets.find((set) => set.id === problemSet.id);
+    if (exists) {
+      return;
+    }
+
+    if (problemSet.isBuildIn) {
+      return;
+    }
+
+    setProblemSets([...problemSets, problemSet]);
+  }
+
   return (
     <ProblemSetsContext
       value={{
@@ -72,6 +93,7 @@ export function ProblemSetsProvider(props: PropsWithChildren) {
         addProblemSet,
         removeProblemSet,
         updateProblemSet,
+        importProblemSet,
       }}
       {...props}
     />

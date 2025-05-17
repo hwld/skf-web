@@ -6,9 +6,10 @@ import { allProblems } from "~/data/all-problems";
 import type { Problem } from "~/models/problem";
 import { Button } from "./button";
 import { IconButton } from "./icon-button";
+import { TextField } from "./input";
 import { Tooltip } from "./tooltip";
 
-const problemSetFormSchema = z.object({
+export const problemSetFormSchema = z.object({
   title: z.string().min(1, "タイトルを入力してください"),
   problemIds: z
     .array(z.object({ value: z.string() }))
@@ -61,29 +62,12 @@ export function ProblemSetForm({
       className="grid grid-rows-[auto_1fr_auto] gap-4"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="title"
-          className="text-xs w-fit flex gap-3 items-center"
-        >
-          タイトル
-        </label>
-        <input
-          id="title"
-          aria-invalid={!!errors.title}
-          aria-errormessage="title-error"
-          className="border h-8 rounded-sm border-base-600 bg-white/5 placeholder:text-base-400 px-2 max-w-[500px] w-full aria-[invalid=true]:border-red-400 aria-[invalid=true]:outline-red-400"
-          placeholder="問題セットのタイトルを入力してください..."
-          {...register("title")}
-        />
-        <div className="h-4">
-          {errors.title?.message ? (
-            <p id="title-error" className="text-red-400 text-xs">
-              {errors.title.message}
-            </p>
-          ) : null}
-        </div>
-      </div>
+      <TextField
+        label="タイトル"
+        placeholder="問題セットのタイトルを入力してください"
+        error={errors.title?.message}
+        {...register("title")}
+      />
       <div className="grid grid-rows-[auto_1fr] gap-2 min-h-0">
         <p className="text-xs">問題</p>
         <div

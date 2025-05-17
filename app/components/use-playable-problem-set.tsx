@@ -8,6 +8,7 @@ import {
   ProblemSetSchema,
 } from "~/models/problem";
 import { playProblemSetParamName } from "~/routes/paths";
+import { useProblemSets } from "./use-problem-sets";
 
 type PlayableProblemResult = Results<string[]> & { isTruncated: boolean };
 
@@ -24,6 +25,10 @@ export type PlayableProblem = Problem &
 
 export type PlayableProblemSet = Omit<ProblemSet, "problemIds"> & {
   playableProblems: PlayableProblem[];
+  /**
+   * 共有された問題セットで、所持していないか
+   */
+  isShared: boolean;
 };
 
 export type ProblemNavigator = {
@@ -58,6 +63,11 @@ export function usePlayableProblemSet({
   onAllRight,
 }: UsePlayableProblemSetParams): UsePlayableProblemSet {
   const [problemSet] = useState(parseProblemSet(initialParams));
+  const { problemSets } = useProblemSets();
+  const isSharedProblemSet = !problemSets.find(
+    (set) => set.id === problemSet.id,
+  );
+
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const [playableProblemSet, setPlayableProblemSet] = useState(
     createPlayableProblemSet(problemSet),
@@ -162,7 +172,7 @@ export function usePlayableProblemSet({
       prevProblem,
       selectProblem,
     },
-    playableProblemSet,
+    playableProblemSet: { ...playableProblemSet, isShared: isSharedProblemSet },
     changeProblemStatus,
     setErrorResult,
     reset,
@@ -178,7 +188,9 @@ function parseProblemSet(params: URLSearchParams) {
   return ProblemSetSchema.parse(JSON.parse(rawParams));
 }
 
-function createPlayableProblemSet(problemSet: ProblemSet): PlayableProblemSet {
+function createPlayableProblemSet(
+  problemSet: ProblemSet,
+): Omit<PlayableProblemSet, "isShared"> {
   const problems = problemSet.problemIds.map((id) => {
     const problem = allProblemMap.get(id);
     if (!problem) {

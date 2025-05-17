@@ -1,18 +1,25 @@
-import { Dialog } from "@base-ui-components/react";
-import clsx from "clsx";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useId, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Paths } from "~/routes/paths";
 import { Button } from "./button";
+import { Dialog, DialogTitle } from "./dialog";
 import { IconButton } from "./icon-button";
+import { TextField } from "./input";
+import { PlayableProblemListDialogTrigger } from "./playable-problem-list-dialog";
+import {
+  type ProblemSetFormData,
+  problemSetFormSchema,
+} from "./problem-set-form";
 import { ProblemStatusBadge } from "./problem-status-badge";
 import { ProgressBar } from "./progress-bar";
 import { Tooltip, TooltipProvider } from "./tooltip";
 import type {
-  PlayableProblem,
   PlayableProblemSet,
   ProblemNavigator,
 } from "./use-playable-problem-set";
+import { useProblemSets } from "./use-problem-sets";
 
 export function ProblemSetToolbar({
   playableProblemSet,
@@ -30,7 +37,9 @@ export function ProblemSetToolbar({
   return (
     <div className="bg-base-800 border border-base-700 rounded-lg pl-4 pt-4 pr-3 pb-3 items-end grid grid-cols-[1fr_auto] gap-4">
       <div className="flex flex-col gap-2">
-        <p className="text-xs">{playableProblemSet.title}</p>
+        <div className="flex items-center gap-1">
+          <p>{playableProblemSet.title}</p>
+        </div>
         <div className="grid grid-cols-[auto_1fr] items-center gap-1">
           <ProblemStatusBadge status={navigator.currentProblem.status} />
           <p className="text-base font-bold truncate">
@@ -41,13 +50,13 @@ export function ProblemSetToolbar({
       </div>
       <div className="flex items-center gap-2">
         <TooltipProvider>
-          <ProblemListDialogTrigger
+          <PlayableProblemListDialogTrigger
             problemSet={playableProblemSet}
             navigator={navigator}
           />
-          <Tooltip trigger={<IconButton iconClass="i-tabler-download" />}>
-            問題セットをインポートする
-          </Tooltip>
+          {playableProblemSet.isShared ? (
+            <ImportProblemSetDialogTrigger problemSet={playableProblemSet} />
+          ) : null}
         </TooltipProvider>
         <Button
           color="secondary"
@@ -61,83 +70,86 @@ export function ProblemSetToolbar({
   );
 }
 
-function ProblemListDialogTrigger({
+function ImportProblemSetDialogTrigger({
   problemSet,
-  navigator,
-}: { problemSet: PlayableProblemSet; navigator: ProblemNavigator }) {
+}: { problemSet: PlayableProblemSet }) {
   const [open, setOpen] = useState(false);
+  const { importProblemSet } = useProblemSets();
+  const formId = useId();
 
-  function handleClickProblemItem(id: string) {
-    navigator.selectProblem(id);
+  function handleImport(data: ProblemSetFormData) {
     setOpen(false);
+    importProblemSet({
+      id: problemSet.id,
+      title: data.title,
+      problemIds: problemSet.playableProblems.map((problem) => problem.id),
+      isBuildIn: problemSet.isBuildIn,
+    });
   }
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger
-        render={
-          <Tooltip
-            trigger={
-              <IconButton
-                iconClass="i-tabler-list"
-                onClick={() => setOpen(true)}
-              />
-            }
-          >
-            問題一覧を表示する
-          </Tooltip>
-        }
-      />
-      <Dialog.Portal>
-        <Dialog.Backdrop className="fixed inset-0 bg-black opacity-50 duration-100 data-[starting-style]:opacity-0 data-[ending-style]:opacity-0" />
-        <Dialog.Popup className="fixed top-0 right-0 bottom-0 w-[500px] bg-base-800 rounded-l-lg border-l border-base-600 translate-x-0 data-[starting-style]:opacity-0 data-[starting-style]:translate-x-10 data-[ending-style]:translate-x-2 data-[ending-style]:opacity-0 transition-all duration-150 ease-in-out opacity-100 grid grid-rows-[auto_1fr]">
-          <div className="grid grid-cols-[1fr_auto] items-center gap-2 p-4 border-b border-base-600">
-            <Dialog.Title className="grid grid-cols-[auto_1fr] items-center gap-1">
-              <span className="i-tabler-folder size-6" />
-              <p className="text-base font-bold">{problemSet.title}</p>
-            </Dialog.Title>
-            <Dialog.Close render={<IconButton iconClass="i-tabler-x" />} />
-          </div>
-          <div className="flex flex-col gap-1 p-4 overflow-auto">
-            {problemSet.playableProblems.map((problem) => {
-              return (
-                <ProblemListItem
-                  key={problem.id}
-                  problem={problem}
-                  active={navigator.currentProblem.id === problem.id}
-                  onClick={handleClickProblemItem}
-                />
-              );
-            })}
-          </div>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+      trigger={
+        <Tooltip trigger={<IconButton iconClass="i-tabler-download" />}>
+          問題セットをインポートする
+        </Tooltip>
+      }
+    >
+      <DialogTitle>問題セットのインポート</DialogTitle>
+      <div className="flex flex-col gap-4">
+        <p className="text-base-300">
+          共有された問題セット「{problemSet.title}」
+          をブラウザに保存することができます。
+        </p>
+        <ImportProblemSetForm
+          id={formId}
+          problemSet={problemSet}
+          onSubmit={handleImport}
+        />
+        <div className="flex items-center justify-end gap-2">
+          <Button color="secondary" onClick={() => setOpen(false)}>
+            キャンセル
+          </Button>
+          <Button type="submit" leftIconClass="i-tabler-download" form={formId}>
+            インポートする
+          </Button>
+        </div>
+      </div>
+    </Dialog>
   );
 }
 
-function ProblemListItem({
-  problem,
-  active,
-  onClick,
+function ImportProblemSetForm({
+  problemSet,
+  id,
+  onSubmit,
 }: {
-  problem: PlayableProblem;
-  active: boolean;
-  onClick: (id: string) => void;
+  problemSet: PlayableProblemSet;
+  id: string;
+  onSubmit: (data: ProblemSetFormData) => void;
 }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: problemSet.title,
+      problemIds: problemSet.playableProblems.map((p) => ({ value: p.id })),
+    },
+    resolver: zodResolver(problemSetFormSchema),
+  });
+
   return (
-    <button
-      type="button"
-      className={clsx(
-        "grid grid-cols-[auto_1fr] px-2 text-start gap-2 h-8 items-center border rounded-sm shrink-0",
-        active
-          ? "border-primary-400 bg-primary-400/10"
-          : "border-transparent hover:bg-primary-400/10",
-      )}
-      onClick={() => onClick(problem.id)}
-    >
-      <ProblemStatusBadge status={problem.status} />
-      <p>{problem.title}</p>
-    </button>
+    <form onSubmit={handleSubmit(onSubmit)} id={id}>
+      <TextField
+        label="タイトル"
+        placeholder="問題セットのタイトルを入力してください..."
+        error={errors.title?.message}
+        {...register("title")}
+      />
+    </form>
   );
 }

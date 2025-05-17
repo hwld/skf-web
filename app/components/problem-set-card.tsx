@@ -1,3 +1,4 @@
+import { Toast } from "@base-ui-components/react";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import type { ProblemSet } from "~/models/problem";
@@ -14,6 +15,17 @@ import { useProblemSets } from "./use-problem-sets";
 type ProblemSetCardProps = { problemSet: ProblemSet };
 
 export function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
+  const toastManager = Toast.useToastManager();
+  function handleShareProblemSet() {
+    navigator.clipboard.writeText(
+      `${window.location.origin}${Paths.playProblemSet(problemSet)}`,
+    );
+    toastManager.add({
+      title: "問題セットのリンクをコピーしました",
+      timeout: 2000,
+    });
+  }
+
   return (
     <div className="h-[140px] bg-base-700 rounded-lg flex flex-col justify-between p-4">
       <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
@@ -30,7 +42,12 @@ export function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
         <div className="flex gap-2">
           <TooltipProvider>
             <Tooltip
-              trigger={<ProblemSetCardButton iconClass="i-tabler-upload" />}
+              trigger={
+                <ProblemSetCardButton
+                  iconClass="i-tabler-upload"
+                  onClick={handleShareProblemSet}
+                />
+              }
             >
               問題セットを共有する
             </Tooltip>

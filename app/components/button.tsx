@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { type VariantProps, tv } from "tailwind-variants";
 
 const button = tv({
@@ -34,6 +34,7 @@ type ButtonProps = VariantProps<typeof button> & {
   rightIconClass?: string;
   children: ReactNode;
   onClick?: () => void;
+  type?: ComponentProps<"button">["type"];
 };
 
 export function Button({
@@ -44,6 +45,7 @@ export function Button({
   rightIconClass,
   children,
   onClick,
+  type = "button",
   ...props
 }: ButtonProps) {
   const classes = button({
@@ -55,7 +57,7 @@ export function Button({
   return (
     <button
       {...props}
-      type="button"
+      type={type}
       className={classes.base()}
       disabled={disabled}
       onClick={onClick}

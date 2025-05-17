@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { NavLink } from "react-router";
 import type { ProblemSet } from "~/models/problem";
 import { Paths } from "~/routes/paths";
+import { Button } from "./button";
+import { Dialog, DialogTitle } from "./dialog";
 import {
   ProblemSetCardButton,
   ProblemSetCardButtonLink,
 } from "./problem-set-card-button";
 import { Tooltip, TooltipProvider } from "./tooltip";
+import { useProblemSets } from "./use-problem-sets";
 
 type ProblemSetCardProps = { problemSet: ProblemSet };
 
@@ -42,16 +46,58 @@ export function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
                 >
                   問題セットを編集する
                 </Tooltip>
-                <Tooltip
-                  trigger={<ProblemSetCardButton iconClass="i-tabler-trash" />}
-                >
-                  問題セットを削除する
-                </Tooltip>
+                <DeleteProblemSetDialogTrigger problemSet={problemSet} />
               </>
             )}
           </TooltipProvider>
         </div>
       </div>
     </div>
+  );
+}
+
+function DeleteProblemSetDialogTrigger({
+  problemSet,
+}: { problemSet: ProblemSet }) {
+  const [open, setOpen] = useState(false);
+  const { removeProblemSet } = useProblemSets();
+
+  const [pendingDelete, setPendingDelete] = useState(false);
+  function handleDelete() {
+    setPendingDelete(true);
+    setOpen(false);
+  }
+
+  function handleAfterClose() {
+    if (pendingDelete) {
+      removeProblemSet(problemSet.id);
+      setPendingDelete(false);
+    }
+  }
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+      onCloseAnimationEnd={handleAfterClose}
+      trigger={
+        <Tooltip trigger={<ProblemSetCardButton iconClass="i-tabler-trash" />}>
+          問題セットを削除する
+        </Tooltip>
+      }
+    >
+      <DialogTitle>"問題セット1" を削除してもよろしいですか？</DialogTitle>
+      <div className="text-base-300">
+        問題セットを削除すると元にもどすことはできません。削除を行う場合は「削除する」ボタンを押してください。キャンセルする場合は「キャンセル」ボタンを押してください。
+      </div>
+      <div className="flex items-center justify-end gap-2">
+        <Button color="secondary" onClick={() => setOpen(false)}>
+          キャンセル
+        </Button>
+        <Button leftIconClass="i-tabler-trash" onClick={handleDelete}>
+          削除する
+        </Button>
+      </div>
+    </Dialog>
   );
 }

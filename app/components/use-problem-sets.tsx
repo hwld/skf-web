@@ -40,13 +40,19 @@ export function ProblemSetsProvider(props: PropsWithChildren) {
   }
 
   function removeProblemSet(id: string) {
-    setValue((sets) => sets.filter((s) => s.id !== id));
+    setValue((problemSets) => {
+      const target = problemSets.find((set) => set.id === id);
+      if (target?.isBuildIn) {
+        return problemSets;
+      }
+      return problemSets.filter((s) => s.id !== id);
+    });
   }
 
   function updateProblemSet(id: string, data: ProblemSetFormData) {
     setValue((sets) =>
       sets.map((set) => {
-        if (id !== set.id) {
+        if (id !== set.id || set.isBuildIn) {
           return set;
         }
 

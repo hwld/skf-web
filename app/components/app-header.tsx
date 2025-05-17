@@ -13,7 +13,7 @@ export function AppHeader() {
           title="ホーム"
         />
         <AppHeaderLink
-          to={Paths.createProblem}
+          to={Paths.createProblemSet}
           iconClass="i-tabler-folder-plus"
           title="問題セット作成"
         />

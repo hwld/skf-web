@@ -17,7 +17,7 @@ export default function Home() {
         <PageTitle iconClass="i-tabler-folders" title="問題セット" />
 
         <NavLink
-          to={Paths.createProblem}
+          to={Paths.createProblemSet}
           className="border border-primary-600 bg-primary-700/15 rounded-lg p-4 w-full gap-2 flex flex-col items-center hover:bg-primary-700/25 transition duration-100"
         >
           <span className="i-tabler-folder-plus size-8" />

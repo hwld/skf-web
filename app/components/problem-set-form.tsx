@@ -17,7 +17,7 @@ const problemSetFormSchema = z.object({
 export type ProblemSetFormData = z.infer<typeof problemSetFormSchema>;
 
 export function ProblemSetForm({
-  defaultValues = { title: "", problemIds: [] },
+  defaultValues,
   onPreviewProblem,
   onSubmit,
   onCancel,
@@ -119,7 +119,7 @@ export function ProblemSetForm({
           color="primary"
           leftIconClass="i-tabler-folder-plus"
         >
-          作成する
+          {defaultValues ? "更新する" : "作成する"}
         </Button>
       </div>
     </form>

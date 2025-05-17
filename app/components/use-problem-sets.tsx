@@ -8,6 +8,7 @@ type ProblemSetContextData = {
   problemSets: ProblemSet[];
   addProblemSet: (data: ProblemSetFormData) => void;
   removeProblemSet: (id: string) => void;
+  updateProblemSet: (id: string, data: ProblemSetFormData) => void;
 };
 
 const ProblemSetsContext = createContext<ProblemSetContextData | undefined>(
@@ -42,9 +43,30 @@ export function ProblemSetsProvider(props: PropsWithChildren) {
     setValue((sets) => sets.filter((s) => s.id !== id));
   }
 
+  function updateProblemSet(id: string, data: ProblemSetFormData) {
+    setValue((sets) =>
+      sets.map((set) => {
+        if (id !== set.id) {
+          return set;
+        }
+
+        return {
+          ...set,
+          title: data.title,
+          problemIds: data.problemIds.map(({ value }) => value),
+        };
+      }),
+    );
+  }
+
   return (
     <ProblemSetsContext
-      value={{ problemSets: allProblemSets, addProblemSet, removeProblemSet }}
+      value={{
+        problemSets: allProblemSets,
+        addProblemSet,
+        removeProblemSet,
+        updateProblemSet,
+      }}
       {...props}
     />
   );

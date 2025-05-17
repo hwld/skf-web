@@ -12,6 +12,7 @@ export default [
     ...prefix("problem-sets", [
       route("play", "routes/problem-sets/play.tsx"),
       route("create", "routes/problem-sets/create.tsx"),
+      route(":id/edit", "routes/problem-sets/edit.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

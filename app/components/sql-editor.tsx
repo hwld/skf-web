@@ -43,7 +43,7 @@ export function SqlEditor({ problem, monacoRef, ref, commands = [] }: Props) {
     // handleBeforeMountは問題セット開始時に一度だけ呼ばれることを想定しており、その時点で前回の挑戦の入力をすべてリセットする。
     // 挑戦ごとに一意なkeyを用意してEditorをアンマウントさせることでリセットできないかを試したがだめだったのでこうする。
     for (const model of monaco.editor.getModels()) {
-      model.dispose();
+      model.setValue("");
     }
 
     setIsMounted(true);

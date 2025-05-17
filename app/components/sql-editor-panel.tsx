@@ -145,7 +145,7 @@ export function SqlEditorPanel({
           return;
         }
         for (const model of editor.getModels()) {
-          model.dispose();
+          model.setValue("");
         }
       },
     };

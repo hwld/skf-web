@@ -35,7 +35,7 @@ export default function ProblemSetFormLayout({
 
   return (
     <div className="grid grid-cols-[1fr_minmax(200px,600px)] gap-4 min-h-0 h-full">
-      <div className="bg-base-800 rounded-lg border border-base-700 p-6 grid grid-rows-[auto_minmax(0px,1fr)] gap-6 h-full min-h-0">
+      <div className="bg-base-900 rounded-lg border border-base-700 p-6 grid grid-rows-[auto_minmax(0px,1fr)] gap-6 h-full min-h-0">
         {title}
         <ProblemSetForm
           defaultValues={defaultValues}
@@ -65,7 +65,7 @@ function ProblemPreviewPanel({ problem }: { problem: Problem | undefined }) {
               <p className="text-base-300 text-xs">問題文</p>
               <p className="whitespace-pre-wrap">{problem.description}</p>
             </div>
-            <Separator orientation="horizontal" className="h-px bg-base-600" />
+            <Separator orientation="horizontal" className="h-px bg-base-700" />
             <div className="flex flex-col gap-2">
               <p className="text-base-300 text-xs">回答例</p>
               <div className="border p-2 border-base-700 rounded-md [&_pre]:bg-transparent! [&_pre]:whitespace-pre-wrap!">

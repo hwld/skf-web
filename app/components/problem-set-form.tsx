@@ -72,7 +72,7 @@ export function ProblemSetForm({
         <p className="text-xs">問題</p>
         <div
           aria-invalid={!!errors.problemIds?.message}
-          className="border border-base-600 rounded-lg p-2 gap-2 grid grid-cols-[repeat(auto-fill,minmax(290px,1fr))] overflow-auto aria-[invalid=true]:border-red-400"
+          className="border border-base-700 rounded-lg p-2 gap-2 grid grid-cols-[repeat(auto-fill,minmax(290px,1fr))] overflow-auto aria-[invalid=true]:border-red-400"
         >
           {allProblems.map((p) => {
             return (
@@ -124,7 +124,7 @@ function ProblemCard({
   onSelectedChange: (id: string, selected: boolean) => void;
 }) {
   return (
-    <div className="grid grid-cols-[1fr_auto] has-[label:hover]:bg-base-600 transition-all duration-100 border items-center h-12 rounded-md pr-2 bg-base-700 has-checked:border-primary-400 border-transparent">
+    <div className="grid grid-cols-[1fr_auto] has-[label:hover]:bg-base-700 transition-all duration-100 border items-center h-12 rounded-md pr-2 bg-base-800 has-checked:border-primary-400 border-base-700">
       {/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
       <label className="grid grid-cols-[auto_1fr] items-center gap-2 h-full cursor-pointer px-2">
         <Checkbox.Root

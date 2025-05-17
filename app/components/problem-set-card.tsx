@@ -27,7 +27,7 @@ export function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
   }
 
   return (
-    <div className="h-[140px] bg-base-700 rounded-lg flex flex-col justify-between p-4">
+    <div className="h-[140px] bg-base-800 border-base-700 border rounded-lg flex flex-col justify-between p-4">
       <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
         <span className="i-tabler-folder size-5" />
         <p className="text-base font-bold truncate">{problemSet.title}</p>

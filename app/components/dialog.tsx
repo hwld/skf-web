@@ -28,8 +28,8 @@ export function Dialog({
     >
       <BaseDialog.Trigger render={trigger} />
       <BaseDialog.Portal>
-        <BaseDialog.Backdrop className="fixed inset-0 bg-black opacity-50 duration-100 data-[starting-style]:opacity-0 data-[ending-style]:opacity-0" />
-        <BaseDialog.Popup className="fixed top-1/2 right-1/2 w-[500px] bg-base-800 rounded-lg border border-base-600 translate-x-1/2 -translate-y-1/2 opacity-100 data-[starting-style]:opacity-0 data-[starting-style]:translate-y-[-40%] data-[ending-style]:opacity-0 data-[ending-style]:translate-y-[-40%] transition-all duration-150 ease-in-out p-4 flex flex-col gap-4">
+        <BaseDialog.Backdrop className="fixed inset-0 bg-black opacity-70 duration-100 data-[starting-style]:opacity-0 data-[ending-style]:opacity-0" />
+        <BaseDialog.Popup className="fixed top-1/2 right-1/2 w-[500px] bg-base-900 rounded-lg border border-base-700 translate-x-1/2 -translate-y-1/2 opacity-100 data-[starting-style]:opacity-0 data-[starting-style]:translate-y-[-40%] data-[ending-style]:opacity-0 data-[ending-style]:translate-y-[-40%] transition-all duration-150 ease-in-out p-4 flex flex-col gap-4">
           {children}
         </BaseDialog.Popup>
       </BaseDialog.Portal>

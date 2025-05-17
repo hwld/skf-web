@@ -12,16 +12,16 @@ export default function Home() {
   const { problemSets } = useProblemSets();
 
   return (
-    <main className="rounded-lg bg-base-800 border gap-10 border-base-700 grid grid-cols-[1fr_auto] p-6">
+    <main className="rounded-lg bg-base-900 border gap-10 border-base-700 grid grid-cols-[1fr_auto] p-6">
       <div className="flex flex-col gap-4">
         <PageTitle iconClass="i-tabler-folders" title="問題セット" />
 
         <NavLink
           to={Paths.createProblemSet}
-          className="border border-primary-800 bg-primary-700/10 rounded-lg p-4 w-full gap-2 flex flex-col items-center hover:bg-primary-700/20 transition duration-100"
+          className="border border-primary-800 bg-primary-800/15 rounded-lg p-4 w-full gap-2 flex flex-col items-center hover:bg-primary-800/25 transition duration-100"
         >
           <span className="i-tabler-folder-plus size-8" />
-          <p>Problem Setを作成する</p>
+          <p>問題セットを作成する</p>
           <p className="text-base-300 text-xs">
             ※LocalStorageに保存されるため、キャッシュ削除などで消えてしまう可能性があります。
           </p>

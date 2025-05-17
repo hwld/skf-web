@@ -3,7 +3,7 @@ import type { ComponentProps } from "react";
 import { NavLink, type NavLinkProps } from "react-router";
 
 const buttonClass =
-  "size-7 group hover:bg-base-500 rounded-sm grid place-items-center transition duration-100";
+  "size-7 group hover:bg-white/15 rounded-sm grid place-items-center transition duration-100";
 const _iconClass = "size-5 text-base-300 group-hover:text-base-100";
 
 type BaseProps = { iconClass: string };

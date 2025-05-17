@@ -35,7 +35,7 @@ export function ProblemSetToolbar({
   }
 
   return (
-    <div className="bg-base-800 border border-base-700 rounded-lg pl-4 pt-4 pr-3 pb-3 items-end grid grid-cols-[1fr_auto] gap-4">
+    <div className="bg-base-900 border border-base-700 rounded-lg pl-4 pt-4 pr-3 pb-3 items-end grid grid-cols-[1fr_auto] gap-4">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-1">
           <p>{playableProblemSet.title}</p>

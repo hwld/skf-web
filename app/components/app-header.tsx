@@ -4,9 +4,9 @@ import { Paths } from "~/routes/paths";
 
 export function AppHeader() {
   return (
-    <header className="h-14 bg-base-800 border border-base-700 rounded-lg px-4 grid grid-cols-[auto_1fr] items-center gap-4">
-      <img src="/logo.svg" alt="Logo" className="h-5" />
-      <div className="flex gap-2">
+    <header className="h-12 bg-base-900 border border-base-700 rounded-md px-4 grid grid-cols-[auto_1fr] items-center gap-4">
+      <img src="/logo.svg" alt="Logo" className="h-4" />
+      <div className="flex gap-1">
         <AppHeaderLink
           to={Paths.home}
           iconClass="i-tabler-home"
@@ -30,13 +30,13 @@ function AppHeaderLink({ to, iconClass, title }: AppHeaderLinkProps) {
       className={({ isActive }) =>
         clsx(
           clsx(
-            "h-8 grid grid-cols-[auto_1fr] px-2 rounded-sm items-center gap-2 transition duration-100",
-            isActive ? "bg-base-600" : "hover:bg-base-700",
+            "h-7 grid grid-cols-[auto_1fr] px-2 rounded-sm items-center gap-1 transition duration-100 border border-transparent",
+            isActive ? "bg-base-700" : "hover:border-base-600",
           ),
         )
       }
     >
-      <span className={clsx(iconClass, "size-5")} />
+      <span className={clsx(iconClass, "size-4")} />
       <p>{title}</p>
     </NavLink>
   );

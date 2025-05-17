@@ -31,7 +31,7 @@ export function ResultComparisonTabPanel({ problem }: Props) {
           <TabPanelTitle iconClass="i-tabler-prompt" title={resultTitle} />
           <Separator
             orientation="vertical"
-            className="w-px bg-base-500 h-2/3"
+            className="w-px bg-base-600 h-2/3"
           />
           <TabPanelTitle iconClass="i-tabler-database" title={expectedTitle} />
           <TabPanelIndicator />

@@ -39,8 +39,8 @@ export function PlayableProblemListDialogTrigger({
       />
       <Dialog.Portal>
         <Dialog.Backdrop className="fixed inset-0 bg-black opacity-50 duration-100 data-[starting-style]:opacity-0 data-[ending-style]:opacity-0" />
-        <Dialog.Popup className="fixed top-0 right-0 bottom-0 w-[500px] bg-base-800 rounded-l-lg border-l border-base-600 translate-x-0 data-[starting-style]:opacity-0 data-[starting-style]:translate-x-10 data-[ending-style]:translate-x-2 data-[ending-style]:opacity-0 transition-all duration-150 ease-in-out opacity-100 grid grid-rows-[auto_1fr]">
-          <div className="grid grid-cols-[1fr_auto] items-center gap-2 p-4 border-b border-base-600">
+        <Dialog.Popup className="fixed top-0 right-0 bottom-0 w-[500px] bg-base-900 rounded-l-lg border-l border-base-700 translate-x-0 data-[starting-style]:opacity-0 data-[starting-style]:translate-x-10 data-[ending-style]:translate-x-2 data-[ending-style]:opacity-0 transition-all duration-150 ease-in-out opacity-100 grid grid-rows-[auto_1fr]">
+          <div className="grid grid-cols-[1fr_auto] items-center gap-2 p-4 border-b border-base-700">
             <Dialog.Title className="grid grid-cols-[auto_1fr] items-center gap-1">
               <span className="i-tabler-folder size-6" />
               <p className="text-base font-bold">{problemSet.title}</p>

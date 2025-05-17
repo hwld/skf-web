@@ -18,7 +18,7 @@ export function PanelHeader({ children, ...others }: PropsWithChildren) {
   return (
     <div
       {...others}
-      className="h-9 bg-base-700 w-full flex items-center px-2 gap-2 shrink-0 rounded-t-(--rounded)"
+      className="h-9 bg-base-800 border-b border-base-700 w-full flex items-center px-2 gap-2 shrink-0 rounded-t-(--rounded)"
     >
       {children}
     </div>
@@ -35,7 +35,7 @@ export function PanelBody({
     <div
       {...props}
       className={clsx(
-        "bg-base-800 grow peer-[.footer]:rounded-b-none rounded-b-(--rounded)",
+        "bg-base-900 grow peer-[.footer]:rounded-b-none rounded-b-(--rounded)",
         noPadding ? "" : "p-4",
         noOverflow ? "" : "overflow-auto",
       )}
@@ -47,7 +47,7 @@ export function PanelBody({
 
 export function PanelFooter({ children }: PropsWithChildren) {
   return (
-    <div className="bg-base-700 p-2 flex items-center justify-end rounded-b-(--rounded) footer">
+    <div className="bg-base-800 border-t border-base-700 p-2 flex items-center justify-end rounded-b-(--rounded) footer">
       {children}
     </div>
   );

@@ -32,8 +32,8 @@ export function SqlEditor({ problem, monacoRef, ref, commands = [] }: Props) {
       base: "vs-dark",
       inherit: true,
       colors: {
-        // CSS変数が使えないのでtailwindのneutral-800を直接指定する
-        "editor.background": "#262626",
+        // CSS変数が使えないのでtailwindのneutral-900を直接指定する
+        "editor.background": "#171717",
       },
       rules: [],
     });

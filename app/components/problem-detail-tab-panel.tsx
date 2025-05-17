@@ -32,7 +32,7 @@ export function ProblemDetailTabPanel({ problem }: Props) {
           <TabPanelTitle iconClass="i-tabler-test-pipe" title={sampleTitle} />
           <Separator
             orientation="vertical"
-            className="w-px bg-base-500 h-2/3"
+            className="w-px bg-base-600 h-2/3"
           />
           <TabPanelTitle iconClass="i-tabler-code" title={sqlSolutionTitle} />
           <TabPanelIndicator />
@@ -107,7 +107,7 @@ function SqlSolutionTabPanelBody({ problem }: { problem: PlayableProblem }) {
             <p className="text-base-300 text-xs">
               回答例{problem.solutions.length > 1 ? index + 1 : ""}
             </p>
-            <div className="relative min-h-11 border border-base-600 p-2 rounded-md [&_.shiki]:bg-transparent! [&_*]:text-xs! [&_code]:whitespace-pre-wrap group">
+            <div className="relative min-h-11 border border-base-700 p-2 rounded-md [&_.shiki]:bg-transparent! [&_*]:text-xs! [&_code]:whitespace-pre-wrap group">
               <div className="absolute right-1 top-1 opacity-0 group-hover:opacity-100 transition duration-100 focus-within:opacity-100">
                 <Tooltip
                   trigger={

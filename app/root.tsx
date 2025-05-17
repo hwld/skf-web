@@ -9,7 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { DbProvider } from "./components/db-provider";
+import { Providers } from "./components/providers";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="p-4 bg-base-900 text-base-100 text-sm h-dvh scheme-dark">
-        <DbProvider>{children}</DbProvider>
+        <Providers>{children}</Providers>
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -117,7 +117,9 @@ export function ProblemSetForm({
         <Button
           type="submit"
           color="primary"
-          leftIconClass="i-tabler-folder-plus"
+          leftIconClass={
+            defaultValues ? "i-tabler-edit" : "i-tabler-folder-plus"
+          }
         >
           {defaultValues ? "更新する" : "作成する"}
         </Button>

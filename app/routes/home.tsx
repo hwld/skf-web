@@ -18,7 +18,7 @@ export default function Home() {
 
         <NavLink
           to={Paths.createProblemSet}
-          className="border border-primary-600 bg-primary-700/15 rounded-lg p-4 w-full gap-2 flex flex-col items-center hover:bg-primary-700/25 transition duration-100"
+          className="border border-primary-800 bg-primary-700/10 rounded-lg p-4 w-full gap-2 flex flex-col items-center hover:bg-primary-700/20 transition duration-100"
         >
           <span className="i-tabler-folder-plus size-8" />
           <p>Problem Setを作成する</p>

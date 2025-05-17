@@ -98,7 +98,7 @@ function ProblemListDialogTrigger({
             </Dialog.Title>
             <Dialog.Close render={<IconButton iconClass="i-tabler-x" />} />
           </div>
-          <div className="grid gap-1 p-4 overflow-auto">
+          <div className="flex flex-col gap-1 p-4 overflow-auto">
             {problemSet.playableProblems.map((problem) => {
               return (
                 <ProblemListItem
@@ -129,7 +129,7 @@ function ProblemListItem({
     <button
       type="button"
       className={clsx(
-        "grid grid-cols-[auto_1fr] px-2 text-start gap-2 h-8 items-center border rounded-sm",
+        "grid grid-cols-[auto_1fr] px-2 text-start gap-2 h-8 items-center border rounded-sm shrink-0",
         active
           ? "border-primary-400 bg-primary-400/10"
           : "border-transparent hover:bg-primary-400/10",

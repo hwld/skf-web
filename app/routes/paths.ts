@@ -5,7 +5,8 @@ export const playProblemSetParamName = "problemSets";
 export const Paths = {
   home: "/",
 
-  createProblem: "/problem-sets/create",
+  createProblemSet: "/problem-sets/create",
+  editProblemSet: (id: string) => `/problem-sets/${id}/edit`,
 
   playProblemSet: (problemSet: ProblemSet) => {
     const searchParams = new URLSearchParams();

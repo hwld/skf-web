@@ -1,9 +1,7 @@
-import clsx from "clsx";
 import { NavLink } from "react-router";
 import PageTitle from "~/components/page-title";
-import { Tooltip, TooltipProvider } from "~/components/tooltip";
-import { buildInProblemSet } from "~/data/build-in-problem-set";
-import type { ProblemSet } from "~/models/problem";
+import { ProblemSetCard } from "~/components/problem-set-card";
+import { useProblemSets } from "~/components/use-problem-sets";
 import { Paths } from "./paths";
 
 export function meta() {
@@ -11,6 +9,8 @@ export function meta() {
 }
 
 export default function Home() {
+  const { problemSets } = useProblemSets();
+
   return (
     <main className="rounded-lg bg-base-800 border gap-10 border-base-700 grid grid-cols-[1fr_auto] p-6">
       <div className="flex flex-col gap-4">
@@ -28,7 +28,7 @@ export default function Home() {
         </NavLink>
 
         <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(400px,1fr))]">
-          {buildInProblemSet.map((set) => {
+          {problemSets.map((set) => {
             return <ProblemSetCard key={set.id} problemSet={set} />;
           })}
         </div>
@@ -43,67 +43,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-  );
-}
-
-type ProblemSetCardProps = { problemSet: ProblemSet };
-
-function ProblemSetCard({ problemSet }: ProblemSetCardProps) {
-  return (
-    <div className="h-[140px] bg-base-700 rounded-lg flex flex-col justify-between p-4">
-      <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
-        <span className="i-tabler-folder size-5" />
-        <p className="text-base font-bold truncate">{problemSet.title}</p>
-      </div>
-      <div className="flex justify-between items-end">
-        <NavLink
-          to={Paths.playProblemSet(problemSet)}
-          className="size-12 rounded-full bg-primary-400 flex items-center justify-center hover:bg-primary-300 transition duration-100"
-        >
-          <span className="i-tabler-player-play-filled size-6 text-base-700 ml-0.5" />
-        </NavLink>
-        <div className="flex gap-2">
-          <TooltipProvider>
-            <Tooltip
-              trigger={<ProblemSetCardButton iconClass="i-tabler-upload" />}
-            >
-              問題セットを共有する
-            </Tooltip>
-            <Tooltip
-              trigger={<ProblemSetCardButton iconClass="i-tabler-edit" />}
-            >
-              問題セットを編集する
-            </Tooltip>
-            <Tooltip
-              trigger={<ProblemSetCardButton iconClass="i-tabler-trash" />}
-            >
-              問題セットを削除する
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-type ProblemSetCardButtonProps = { iconClass: string };
-
-function ProblemSetCardButton({
-  iconClass,
-  ...props
-}: ProblemSetCardButtonProps) {
-  return (
-    <button
-      {...props}
-      type="button"
-      className="size-7 group hover:bg-base-500 rounded-sm grid place-items-center transition duration-100"
-    >
-      <span
-        className={clsx(
-          iconClass,
-          "size-5 text-base-300 group-hover:text-base-100",
-        )}
-      />
-    </button>
   );
 }

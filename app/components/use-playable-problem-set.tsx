@@ -17,15 +17,7 @@ export type PlayableProblem = Problem &
     | { status: "error"; message: string }
     | {
         status: "right" | "wrong";
-
-        /**
-         * SQLの実行結果
-         */
         result: PlayableProblemResult;
-
-        /**
-         * 解答の実行結果
-         */
         solutionResults: PlayableProblemResult[];
       }
   );
@@ -53,14 +45,22 @@ export type UsePlayableProblemSet = {
     result: { user: PlayableProblemResult; solutions: PlayableProblemResult[] },
   ) => void;
   setErrorResult: (id: string, message: string) => void;
+  reset: () => void;
 };
 
-export function usePlayableProblemSet(
-  params: URLSearchParams,
-): UsePlayableProblemSet {
+type UsePlayableProblemSetParams = {
+  initialParams: URLSearchParams;
+  onAllRight?: () => void;
+};
+
+export function usePlayableProblemSet({
+  initialParams,
+  onAllRight,
+}: UsePlayableProblemSetParams): UsePlayableProblemSet {
+  const [problemSet] = useState(parseProblemSet(initialParams));
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const [playableProblemSet, setPlayableProblemSet] = useState(
-    initialPlayableProblemSet(params),
+    createPlayableProblemSet(problemSet),
   );
 
   const currentProblem =
@@ -124,24 +124,32 @@ export function usePlayableProblemSet(
       solutions: PlayableProblemResult[];
     },
   ) {
-    setPlayableProblemSet((prev) => {
-      const problemResults = prev.playableProblems.map(
-        (problem): PlayableProblem => {
-          if (problem.id !== problemId) {
-            return problem;
-          }
+    const newProblems = playableProblemSet.playableProblems.map((problem) => {
+      if (problem.id !== problemId) {
+        return problem;
+      }
 
-          return {
-            ...problem,
-            status,
-            result: result.user,
-            solutionResults: result.solutions,
-          };
-        },
-      );
-
-      return { ...prev, playableProblems: problemResults };
+      return {
+        ...problem,
+        status,
+        result: result.user,
+        solutionResults: result.solutions,
+      };
     });
+
+    if (newProblems.every((problem) => problem.status === "right")) {
+      onAllRight?.();
+    }
+
+    setPlayableProblemSet((prev) => ({
+      ...prev,
+      playableProblems: newProblems,
+    }));
+  }
+
+  function reset() {
+    setCurrentProblemIndex(0);
+    setPlayableProblemSet(createPlayableProblemSet(problemSet));
   }
 
   return {
@@ -157,18 +165,20 @@ export function usePlayableProblemSet(
     playableProblemSet,
     changeProblemStatus,
     setErrorResult,
+    reset,
   };
 }
 
-function initialPlayableProblemSet(
-  params: URLSearchParams,
-): PlayableProblemSet {
+function parseProblemSet(params: URLSearchParams) {
   const rawParams = params.get(playProblemSetParamName);
   if (!rawParams) {
     throw new Error("ProblemSet not found");
   }
 
-  const problemSet = ProblemSetSchema.parse(JSON.parse(rawParams));
+  return ProblemSetSchema.parse(JSON.parse(rawParams));
+}
+
+function createPlayableProblemSet(problemSet: ProblemSet): PlayableProblemSet {
   const problems = problemSet.problemIds.map((id) => {
     const problem = allProblemMap.get(id);
     if (!problem) {

@@ -29,10 +29,10 @@ const button = tv({
   defaultVariants: { size: "md", color: "primary" },
 });
 
-type ButtonProps = VariantProps<typeof button> & {
+export type ButtonProps = VariantProps<typeof button> & {
   leftIconClass?: string;
   rightIconClass?: string;
-  children: ReactNode;
+  children?: ReactNode;
   onClick?: () => void;
   type?: ComponentProps<"button">["type"];
 };

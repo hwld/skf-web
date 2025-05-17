@@ -14,17 +14,19 @@ export type SqlEditorCommand = {
 
 type Props = {
   problem: Problem;
+  monacoRef: RefObject<Monaco | null>;
   ref: RefObject<editor.IStandaloneCodeEditor | null>;
   commands?: SqlEditorCommand[];
 };
 
-export function SqlEditor({ problem, ref, commands = [] }: Props) {
-  const monacoRef = useRef<Monaco | undefined>(undefined);
+export function SqlEditor({ problem, monacoRef, ref, commands = [] }: Props) {
+  const _monacoRef = useRef<Monaco | undefined>(undefined);
 
   const [isMounted, setIsMounted] = useState(false);
 
   function handleBeforeMount(monaco: Monaco) {
     monacoRef.current = monaco;
+    _monacoRef.current = monaco;
 
     monaco.editor.defineTheme("skf-dark", {
       base: "vs-dark",
@@ -56,7 +58,7 @@ export function SqlEditor({ problem, ref, commands = [] }: Props) {
   // 例えばcommandsはhandler関数を持っているが、ここにReact stateが含まれている場合、
   // stateが変わって関数が変わってもmonacoのcommandは変わらないので意図しない結果になってしまう可能性がある
   useEffect(() => {
-    const monaco = monacoRef.current;
+    const monaco = _monacoRef.current;
     // 初回レンダリングでmonacoがマウントされているとは限らないのでEffectに含めて、isMountedが変化した際にもう一度動くようにする
     if (!monaco || !isMounted) {
       return;

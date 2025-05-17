@@ -1,6 +1,7 @@
 import type { Results } from "@electric-sql/pglite";
+import type { Monaco } from "@monaco-editor/react";
 import { KeyCode, KeyMod, type editor } from "monaco-editor";
-import { useRef } from "react";
+import { type Ref, useImperativeHandle, useRef } from "react";
 import { isProblemResultEqual } from "~/models/problem";
 import { Button } from "./button";
 import { useDb } from "./db-provider";
@@ -19,17 +20,22 @@ import type {
   UsePlayableProblemSet,
 } from "./use-playable-problem-set";
 
+export type SqlEditorRef = { reset: () => void };
+
 type Props = {
+  ref: Ref<SqlEditorRef>;
   navigator: ProblemNavigator;
   onChangeProblemStatus: UsePlayableProblemSet["changeProblemStatus"];
   onSetErrorResult: UsePlayableProblemSet["setErrorResult"];
 };
 
 export function SqlEditorPanel({
+  ref,
   navigator,
   onChangeProblemStatus,
   onSetErrorResult,
 }: Props) {
+  const monacoRef = useRef<Monaco | null>(null);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const editorCommands: SqlEditorCommand[] = [
     {
@@ -131,6 +137,20 @@ export function SqlEditorPanel({
     });
   }
 
+  useImperativeHandle(ref, () => {
+    return {
+      reset: () => {
+        const editor = monacoRef.current?.editor;
+        if (!editor) {
+          return;
+        }
+        for (const model of editor.getModels()) {
+          model.dispose();
+        }
+      },
+    };
+  });
+
   return (
     <Panel>
       <PanelHeader>
@@ -138,6 +158,7 @@ export function SqlEditorPanel({
       </PanelHeader>
       <PanelBody noPadding noOverflow>
         <SqlEditor
+          monacoRef={monacoRef}
           ref={editorRef}
           problem={navigator.currentProblem}
           commands={editorCommands}

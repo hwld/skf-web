@@ -35,7 +35,7 @@ export function PanelBody({
     <div
       {...props}
       className={clsx(
-        "bg-base-900 grow peer-[.footer]:rounded-b-none rounded-b-(--rounded)",
+        "bg-base-900 grow peer-[.footer]:rounded-b-none rounded-b-(--rounded) min-h-0",
         noPadding ? "" : "p-4",
         noOverflow ? "" : "overflow-auto",
       )}

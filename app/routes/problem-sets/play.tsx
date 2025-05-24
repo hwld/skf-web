@@ -46,7 +46,7 @@ export default function ProblemSetPlay() {
   return (
     <>
       <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 min-h-0">
-        <div className="grid grid-rows-[minmax(0,1fr)_320px] gap-4">
+        <div className="grid grid-rows-[minmax(0,1fr)_320px] gap-4 min-h-0">
           <SqlEditorPanel
             ref={editorRef}
             navigator={problemNavigator}

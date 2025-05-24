@@ -15,7 +15,7 @@
     "@electric-sql/pglite": "^0.3.1",
     "@electric-sql/pglite-react": "^0.2.19",
     "@hookform/resolvers": "^5.0.1",
-    "@monaco-editor/react": "^4.7.0-rc.0",
+    "@monaco-editor/react": "^4.7.0",
     "@react-router/node": "^7.5.3",
     "@react-router/serve": "^7.5.3",
     "clsx": "^2.1.1",

@@ -25,6 +25,16 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+export function meta() {
+  return [
+    { title: "skf-web" },
+    {
+      name: "description",
+      content: "データサイエンス100本ノックのSQLを解くことのできるWebアプリ",
+    },
+  ];
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">

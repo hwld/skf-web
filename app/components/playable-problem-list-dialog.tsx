@@ -1,6 +1,6 @@
 import { Dialog } from "@base-ui-components/react";
 import clsx from "clsx";
-import { useState } from "react";
+import { type Ref, useEffect, useRef, useState } from "react";
 import { IconButton } from "./icon-button";
 import { ProblemStatusBadge } from "./problem-status-badge";
 import { Tooltip } from "./tooltip";
@@ -14,12 +14,20 @@ export function PlayableProblemListDialogTrigger({
   problemSet,
   navigator,
 }: { problemSet: PlayableProblemSet; navigator: ProblemNavigator }) {
+  const currentProblemRef = useRef<HTMLButtonElement | null>(null);
+
   const [open, setOpen] = useState(false);
 
   function handleClickProblemItem(id: string) {
     navigator.selectProblem(id);
     setOpen(false);
   }
+
+  useEffect(() => {
+    if (open) {
+      currentProblemRef.current?.scrollIntoView({ block: "center" });
+    }
+  }, [open]);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -37,7 +45,7 @@ export function PlayableProblemListDialogTrigger({
           </Tooltip>
         }
       />
-      <Dialog.Portal>
+      <Dialog.Portal keepMounted>
         <Dialog.Backdrop className="fixed inset-0 bg-black opacity-50 duration-100 data-[starting-style]:opacity-0 data-[ending-style]:opacity-0" />
         <Dialog.Popup className="fixed top-0 right-0 bottom-0 w-[500px] bg-base-900 rounded-l-lg border-l border-base-700 translate-x-0 data-[starting-style]:opacity-0 data-[starting-style]:translate-x-10 data-[ending-style]:translate-x-2 data-[ending-style]:opacity-0 transition-all duration-150 ease-in-out opacity-100 grid grid-rows-[auto_1fr]">
           <div className="grid grid-cols-[1fr_auto] items-center gap-2 p-4 border-b border-base-700">
@@ -52,6 +60,11 @@ export function PlayableProblemListDialogTrigger({
               return (
                 <PlayableProblemListItem
                   key={problem.id}
+                  ref={
+                    navigator.currentProblem.id === problem.id
+                      ? currentProblemRef
+                      : undefined
+                  }
                   problem={problem}
                   active={navigator.currentProblem.id === problem.id}
                   onClick={handleClickProblemItem}
@@ -66,16 +79,19 @@ export function PlayableProblemListDialogTrigger({
 }
 
 function PlayableProblemListItem({
+  ref,
   problem,
   active,
   onClick,
 }: {
+  ref?: Ref<HTMLButtonElement>;
   problem: PlayableProblem;
   active: boolean;
   onClick: (id: string) => void;
 }) {
   return (
     <button
+      ref={ref}
       type="button"
       className={clsx(
         "grid grid-cols-[auto_1fr] px-2 text-start gap-2 h-8 items-center border rounded-sm shrink-0",

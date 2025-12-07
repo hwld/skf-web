@@ -13,6 +13,10 @@ import {
   PanelHeader,
   PanelTitle,
 } from "./panel";
+import {
+  ResultComparisonTabs,
+  useResultComparisonTab,
+} from "./result-comparison-tab-panel/tab-provider";
 import { SqlEditor, type SqlEditorCommand } from "./sql-editor";
 import { Tooltip, TooltipProvider } from "./tooltip";
 import type {
@@ -35,6 +39,8 @@ export function SqlEditorPanel({
   onChangeProblemStatus,
   onSetErrorResult,
 }: Props) {
+  const { setTab } = useResultComparisonTab();
+
   const monacoRef = useRef<Monaco | null>(null);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const editorCommands: SqlEditorCommand[] = [
@@ -135,6 +141,8 @@ export function SqlEditorPanel({
         await tx.rollback();
       }
     });
+
+    setTab(ResultComparisonTabs.result);
   }
 
   useImperativeHandle(ref, () => {

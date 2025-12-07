@@ -4,10 +4,6 @@ import { ProblemSetCard } from "~/components/problem-set-card";
 import { useProblemSets } from "~/components/use-problem-sets";
 import { Paths } from "./paths";
 
-export function meta() {
-  return [{ title: "skf-web" }, { name: "description", content: "skf-web" }];
-}
-
 export default function Home() {
   const { problemSets } = useProblemSets();
 

@@ -1,6 +1,7 @@
 import { Separator, Tabs } from "@base-ui-components/react";
 import clsx from "clsx";
 import { useMemo } from "react";
+import relationshipsImgUrl from "~/assets/relationships.svg";
 import {
   Panel,
   PanelBody,
@@ -17,7 +18,6 @@ import {
   TableRow,
 } from "../table";
 import type { PlayableProblem } from "../use-playable-problem-set";
-import relationshipsSvg from "./relationships.svg";
 import {
   type ResultComparisonTab,
   ResultComparisonTabs,
@@ -74,7 +74,7 @@ function RelationShipsTabPanelBody({ tab }: { tab: ResultComparisonTab }) {
           テーブルのリレーションシップ (リレーションシップ以外を省略しています)
         </p>
         <img
-          src={relationshipsSvg}
+          src={relationshipsImgUrl}
           alt="Relationships Diagram"
           className="h-full object-contain p-1 rounded-sm bg-base-600"
         />

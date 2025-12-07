@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { NavLink } from "react-router";
+import logoUrl from "~/assets/logo.svg";
 import { Paths } from "~/routes/paths";
 
 export function AppHeader() {
   return (
     <header className="h-12 bg-base-900 border border-base-700 rounded-md px-4 grid grid-cols-[auto_1fr] items-center gap-4">
-      <img src="/logo.svg" alt="Logo" className="h-4" />
+      <img src={logoUrl} alt="Logo" className="h-4 w-11" />
       <div className="flex gap-1">
         <AppHeaderLink
           to={Paths.home}

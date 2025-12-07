@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import PageTitle from "~/components/page-title";
 import { ProblemSetCard } from "~/components/problem-set-card";
 import { useProblemSets } from "~/components/use-problem-sets";
+import logoUrl from "~/assets/logo.svg";
 import { Paths } from "./paths";
 
 export default function Home() {
@@ -31,7 +32,7 @@ export default function Home() {
       </div>
       <div className="bg-base-950 rounded-lg border border-base-700 p-10 gap-6 hidden xl:flex flex-col 2xl:w-[700px]">
         <div className="grid place-items-center gap-6 sticky top-[100px] mt-[200px]">
-          <img src="./logo.svg" className="h-10 2xl:h-16" alt="アプリロゴ" />
+          <img src={logoUrl} className="h-10 2xl:h-16" alt="アプリロゴ" />
           <div className="text-center text-xs 2xl:text-sm">
             <p>データサイエンス100本ノック(構造化データ加工編) -SQL-</p>
             <p> をブラウザで解くことのできるWebアプリです</p>

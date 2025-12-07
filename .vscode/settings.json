@@ -1,5 +1,4 @@
 {
-  "github.copilot.enable": { "*": false },
   "editor.wordWrap": "on",
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "biomejs.biome",

@@ -1,6 +1,7 @@
 import { Separator, Tabs } from "@base-ui-components/react";
 import clsx from "clsx";
 import { useMemo } from "react";
+import relationshipsSvg from "../assets/relationships.svg";
 import {
   Panel,
   PanelBody,
@@ -20,14 +21,23 @@ import type { PlayableProblem } from "./use-playable-problem-set";
 
 const resultTitle = "Result";
 const expectedTitle = "Expected";
+const relationshipsTitle = "Relationships";
 
 type Props = { problem: PlayableProblem };
 
 export function ResultComparisonTabPanel({ problem }: Props) {
   return (
-    <Tabs.Root render={Panel} defaultValue={resultTitle}>
+    <Tabs.Root render={Panel} defaultValue={relationshipsTitle}>
       <PanelHeader>
         <Tabs.List className="flex gap-2 h-full items-center relative">
+          <TabPanelTitle
+            iconClass="i-tabler-hierarchy"
+            title={relationshipsTitle}
+          />
+          <Separator
+            orientation="vertical"
+            className="w-px bg-base-600 h-2/3"
+          />
           <TabPanelTitle iconClass="i-tabler-prompt" title={resultTitle} />
           <Separator
             orientation="vertical"
@@ -37,9 +47,27 @@ export function ResultComparisonTabPanel({ problem }: Props) {
           <TabPanelIndicator />
         </Tabs.List>
       </PanelHeader>
+      <RelationShipsTabPanelBody />
       <ResultTabPanelBody problem={problem} />
       <ExpectedTabPanelBody problem={problem} />
     </Tabs.Root>
+  );
+}
+
+function RelationShipsTabPanelBody() {
+  return (
+    <Tabs.Panel render={PanelBody} value={relationshipsTitle}>
+      <div className="grid grid-rows-[auto_minmax(0,1fr)] gap-2 h-full">
+        <p className="text-base-300 text-xs">
+          テーブルのリレーションシップ (リレーションシップ以外を省略しています)
+        </p>
+        <img
+          src={relationshipsSvg}
+          alt="Relationships Diagram"
+          className="h-full object-contain p-1 rounded-sm bg-base-600"
+        />
+      </div>
+    </Tabs.Panel>
   );
 }
 

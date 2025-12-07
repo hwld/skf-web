@@ -4,7 +4,8 @@ import { useSearchParams } from "react-router";
 import { Panel, PanelBody, PanelHeader, PanelTitle } from "~/components/panel";
 import { ProblemDetailTabPanel } from "~/components/problem-detail-tab-panel";
 import { ProblemSetToolbar } from "~/components/problem-set-toolbar";
-import { ResultComparisonTabPanel } from "~/components/result-comparison-tab-panel";
+import { ResultComparisonTabPanel } from "~/components/result-comparison-tab-panel/result-comparison-tab-panel";
+import { ResultComparisonTabProvider } from "~/components/result-comparison-tab-panel/tab-provider";
 import {
   SqlEditorPanel,
   type SqlEditorRef,
@@ -44,7 +45,7 @@ export default function ProblemSetPlay() {
   });
 
   return (
-    <>
+    <ResultComparisonTabProvider>
       <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 min-h-0">
         <div className="grid grid-rows-[minmax(0,1fr)_320px] gap-4 min-h-0">
           <SqlEditorPanel
@@ -76,6 +77,6 @@ export default function ProblemSetPlay() {
           <ProblemDetailTabPanel problem={problemNavigator.currentProblem} />
         </div>
       </div>
-    </>
+    </ResultComparisonTabProvider>
   );
 }

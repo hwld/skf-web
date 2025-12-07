@@ -1,14 +1,13 @@
 import { Separator, Tabs } from "@base-ui-components/react";
 import clsx from "clsx";
 import { useMemo } from "react";
-import relationshipsSvg from "../assets/relationships.svg";
 import {
   Panel,
   PanelBody,
   PanelHeader,
   TabPanelIndicator,
   TabPanelTitle,
-} from "./panel";
+} from "../panel";
 import {
   Table,
   TableBody,
@@ -16,47 +15,60 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./table";
-import type { PlayableProblem } from "./use-playable-problem-set";
-
-const resultTitle = "Result";
-const expectedTitle = "Expected";
-const relationshipsTitle = "Relationships";
+} from "../table";
+import type { PlayableProblem } from "../use-playable-problem-set";
+import relationshipsSvg from "./relationships.svg";
+import {
+  type ResultComparisonTab,
+  ResultComparisonTabs,
+  useResultComparisonTab,
+} from "./tab-provider";
 
 type Props = { problem: PlayableProblem };
 
 export function ResultComparisonTabPanel({ problem }: Props) {
+  const { tab, setTab } = useResultComparisonTab();
+
   return (
-    <Tabs.Root render={Panel} defaultValue={relationshipsTitle}>
+    <Tabs.Root render={Panel} value={tab} onValueChange={setTab}>
       <PanelHeader>
         <Tabs.List className="flex gap-2 h-full items-center relative">
           <TabPanelTitle
             iconClass="i-tabler-hierarchy"
-            title={relationshipsTitle}
+            title={ResultComparisonTabs.relationships}
           />
           <Separator
             orientation="vertical"
             className="w-px bg-base-600 h-2/3"
           />
-          <TabPanelTitle iconClass="i-tabler-prompt" title={resultTitle} />
+          <TabPanelTitle
+            iconClass="i-tabler-prompt"
+            title={ResultComparisonTabs.result}
+          />
           <Separator
             orientation="vertical"
             className="w-px bg-base-600 h-2/3"
           />
-          <TabPanelTitle iconClass="i-tabler-database" title={expectedTitle} />
+          <TabPanelTitle
+            iconClass="i-tabler-database"
+            title={ResultComparisonTabs.expected}
+          />
           <TabPanelIndicator />
         </Tabs.List>
       </PanelHeader>
-      <RelationShipsTabPanelBody />
-      <ResultTabPanelBody problem={problem} />
-      <ExpectedTabPanelBody problem={problem} />
+      <RelationShipsTabPanelBody tab={ResultComparisonTabs.relationships} />
+      <ResultTabPanelBody problem={problem} tab={ResultComparisonTabs.result} />
+      <ExpectedTabPanelBody
+        problem={problem}
+        tab={ResultComparisonTabs.expected}
+      />
     </Tabs.Root>
   );
 }
 
-function RelationShipsTabPanelBody() {
+function RelationShipsTabPanelBody({ tab }: { tab: ResultComparisonTab }) {
   return (
-    <Tabs.Panel render={PanelBody} value={relationshipsTitle}>
+    <Tabs.Panel render={PanelBody} value={tab}>
       <div className="grid grid-rows-[auto_minmax(0,1fr)] gap-2 h-full">
         <p className="text-base-300 text-xs">
           テーブルのリレーションシップ (リレーションシップ以外を省略しています)
@@ -71,7 +83,10 @@ function RelationShipsTabPanelBody() {
   );
 }
 
-function ResultTabPanelBody({ problem }: { problem: PlayableProblem }) {
+function ResultTabPanelBody({
+  problem,
+  tab,
+}: { problem: PlayableProblem; tab: ResultComparisonTab }) {
   const resultContent = useMemo(() => {
     switch (problem.status) {
       case "idle": {
@@ -152,13 +167,16 @@ function ResultTabPanelBody({ problem }: { problem: PlayableProblem }) {
   }, [problem]);
 
   return (
-    <Tabs.Panel render={PanelBody} value={resultTitle}>
+    <Tabs.Panel render={PanelBody} value={tab}>
       <div className="flex flex-col gap-2 w-fit">{resultContent}</div>
     </Tabs.Panel>
   );
 }
 
-function ExpectedTabPanelBody({ problem }: { problem: PlayableProblem }) {
+function ExpectedTabPanelBody({
+  problem,
+  tab,
+}: { problem: PlayableProblem; tab: ResultComparisonTab }) {
   const resultContent = useMemo(() => {
     switch (problem.status) {
       case "idle": {
@@ -214,7 +232,7 @@ function ExpectedTabPanelBody({ problem }: { problem: PlayableProblem }) {
   }, [problem]);
 
   return (
-    <Tabs.Panel render={PanelBody} value={expectedTitle}>
+    <Tabs.Panel render={PanelBody} value={tab}>
       <div className="flex flex-col gap-6">{resultContent}</div>
     </Tabs.Panel>
   );

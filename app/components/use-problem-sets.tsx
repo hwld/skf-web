@@ -29,7 +29,7 @@ export function ProblemSetsProvider(props: PropsWithChildren) {
     "",
     [],
   );
-  const allProblemSets = [...buildInProblemSet, ...problemSets];
+  const allProblemSets = [...problemSets, ...buildInProblemSet];
 
   function addProblemSet(data: ProblemSetFormData) {
     setProblemSets((sets) => [

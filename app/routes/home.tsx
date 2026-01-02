@@ -34,7 +34,7 @@ export default function Home() {
         <div className="grid place-items-center gap-6 sticky top-[100px] mt-[200px]">
           <img src={logoUrl} className="h-10 2xl:h-16" alt="アプリロゴ" />
           <div className="text-center text-xs 2xl:text-sm">
-            <p>データサイエンス100本ノック(構造化データ加工編) -SQL-</p>
+            <a href="https://github.com/The-Japan-DataScientist-Society/100knocks-preprocess" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-blue-300">データサイエンス100本ノック(構造化データ加工編) -SQL-</a>
             <p> をブラウザで解くことのできるWebアプリです</p>
           </div>
         </div>

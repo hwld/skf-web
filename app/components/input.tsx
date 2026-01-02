@@ -23,7 +23,7 @@ export function TextField({ label, error, ...props }: Props) {
           id={inputId}
           aria-invalid={!!error}
           aria-errormessage={errorMessageId}
-          className="border h-8 rounded-sm border-base-600 bg-white/5 placeholder:text-base-400 px-2 max-w-[500px] w-full aria-[invalid=true]:border-red-400 aria-[invalid=true]:outline-red-400"
+          className="border h-9 rounded-sm border-base-600 bg-white/5 placeholder:text-base-400 px-2 max-w-[500px] w-full aria-[invalid=true]:border-red-400 aria-[invalid=true]:outline-red-400 placeholder:text-xs focus-visible:outline-primary-400"
         />
         <div className="h-4">
           {error ? (

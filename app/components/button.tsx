@@ -10,7 +10,6 @@ const button = tv({
   variants: {
     size: {
       md: { base: "h-8", icon: "size-5" },
-      sm: { base: "h-7", icon: "size-4" },
     },
     color: {
       primary: {

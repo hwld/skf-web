@@ -34,7 +34,7 @@ export default function ProblemSetFormLayout({
   }
 
   return (
-    <div className="grid grid-cols-[1fr_minmax(200px,600px)] gap-4 min-h-0 h-full">
+    <div className="grid grid-cols-[1fr_minmax(200px,600px)] gap-2 min-h-0 h-full">
       <div className="bg-base-900 rounded-lg border border-base-700 p-6 grid grid-rows-[auto_minmax(0px,1fr)] gap-6 h-full min-h-0">
         {title}
         <ProblemSetForm

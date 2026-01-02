@@ -46,8 +46,8 @@ export default function ProblemSetPlay() {
 
   return (
     <ResultComparisonTabProvider>
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 min-h-0">
-        <div className="grid grid-rows-[minmax(0,1fr)_320px] gap-4 min-h-0">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2 min-h-0">
+        <div className="grid grid-rows-[minmax(0,1fr)_320px] gap-2 min-h-0">
           <SqlEditorPanel
             ref={editorRef}
             navigator={problemNavigator}
@@ -57,7 +57,7 @@ export default function ProblemSetPlay() {
 
           <ResultComparisonTabPanel problem={problemNavigator.currentProblem} />
         </div>
-        <div className="grid grid-rows-[auto_270px_minmax(0,1fr)] gap-4 w-[600px] min-h-0">
+        <div className="grid grid-rows-[auto_270px_minmax(0,1fr)] gap-2 w-[600px] min-h-0">
           <ProblemSetToolbar
             playableProblemSet={playableProblemSet}
             navigator={problemNavigator}
